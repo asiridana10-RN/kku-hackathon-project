@@ -2,7 +2,7 @@
 
 ## What it does
 
-A polished, single-page guide to 14 memorable places in Abha and Aseer. Filter by category or season, open a location in Google Maps, generate an easy four-stop day, or use **Surprise me** to discover a random attraction.
+A polished, single-page guide to 18 handpicked dining, cafe, heritage, market, and activity locations in Abha and Aseer. Filter by category or season, open a location in Google Maps, generate an easy four-stop day, or use **Surprise me** to discover a random place.
 
 ## Who it is for
 
@@ -16,7 +16,7 @@ A modern web browser. No installation, account, server, or internet connection i
 
 Double-click `index.html` to open the guide in a browser. It runs directly from the folder without a build step or server.
 
-To add real local photos, place files named `place1.jpg` through `place14.jpg` inside `images/`. Until then, each card intentionally shows a visible fallback with an optional Unsplash link.
+To add real local photos, place files named `place1.jpg` through `place18.jpg` inside `images/`. Until then, each card intentionally shows a visible fallback with an optional Unsplash link.
 
 ## Try it with the sample data
 
@@ -26,9 +26,10 @@ The browser may save only your selected filters and generated itinerary IDs in l
 
 ### Features
 
-- Fourteen English-language attractions across Abha and Aseer
-- Category and season filters
-- Google Maps search buttons for every attraction
+- Eighteen English-language places across Abha and Aseer
+- Exact categories: All, Dining, Cafes, Heritage & Markets, and Activities & Nature
+- Seasonal views: All Year, Winter & Spring, Summer & Rainy Season, and Jacaranda & Spring
+- Google Maps search buttons for every place
 - **Plan My Day** route generator that respects visible filters
 - **Surprise me** random attraction picker
 - Keyboard focus styles, responsive cards, and reduced-motion support

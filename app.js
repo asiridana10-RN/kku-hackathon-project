@@ -3,11 +3,15 @@
 
   const places = Array.isArray(window.PLACES) ? window.PLACES : [];
   const storageKey = "abha-visitor-guide-state";
-  const categories = ["All categories", "Nature", "Heritage", "Arts", "Views", "Markets"];
-  const seasons = ["All seasons", "Spring", "Summer", "Winter"];
+  const schemaVersion = 2;
+  const datasetVersion = "abha-18-places-v1";
+  const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Activities & Nature"];
+  const seasons = ["All Year", "Winter & Spring", "Summer & Rainy Season", "Jacaranda & Spring"];
   const defaultState = {
-    category: "All categories",
-    season: "All seasons",
+    schemaVersion,
+    datasetVersion,
+    category: "All",
+    season: "All Year",
     itineraryIds: []
   };
 
@@ -31,21 +35,47 @@
   let toastTimeout;
 
   function isValidData() {
-    const validIds = new Set(places.map((place) => place.id));
-    return places.length === 14 && validIds.size === 14 && places.every((place, index) => (
-      place && place.id === index + 1 && place.image === `./images/place${index + 1}.jpg` &&
-      place.name && place.category && place.season && place.mapQuery && place.description
-    ));
+    const allowedCategories = categories.filter((category) => category !== "All");
+    const categoryTotals = Object.fromEntries(allowedCategories.map((category) => [category, 0]));
+    const ids = new Set();
+    const images = new Set();
+    const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+    if (places.length !== 18) return false;
+
+    for (const place of places) {
+      if (!place || typeof place !== "object" || typeof place.id !== "string" || !place.id.trim() || ids.has(place.id)) return false;
+      if (!allowedCategories.includes(place.category)) return false;
+      if (!Array.isArray(place.seasons) || !place.seasons.length || place.seasons.some((season) => !seasons.includes(season))) return false;
+      if (!["name", "description", "duration", "mapQuery", "image", "alt"].every((field) => typeof place[field] === "string" && place[field].trim())) return false;
+      if (!timePattern.test(place.planTime) || !Number.isInteger(place.priority) || place.priority < 1) return false;
+      if (!/^\.\/images\/place(?:[1-9]|1[0-8])\.jpg$/.test(place.image) || images.has(place.image)) return false;
+      ids.add(place.id);
+      images.add(place.image);
+      categoryTotals[place.category] += 1;
+    }
+
+    const expectedImages = Array.from({ length: 18 }, (_, index) => `./images/place${index + 1}.jpg`);
+    return expectedImages.every((image) => images.has(image)) &&
+      categoryTotals.Dining === 3 &&
+      categoryTotals.Cafes === 4 &&
+      categoryTotals["Heritage & Markets"] === 4 &&
+      categoryTotals["Activities & Nature"] === 7;
   }
 
   function readState() {
     try {
       const stored = JSON.parse(localStorage.getItem(storageKey));
-      if (!stored || typeof stored !== "object") return { ...defaultState };
+      if (!stored || stored.schemaVersion !== schemaVersion || stored.datasetVersion !== datasetVersion) return { ...defaultState };
+      const validIds = new Set(places.map((place) => place.id));
+      const itineraryIds = Array.isArray(stored.itineraryIds)
+        ? [...new Set(stored.itineraryIds.filter((id) => validIds.has(id)))].slice(0, 4)
+        : [];
       return {
+        ...defaultState,
         category: categories.includes(stored.category) ? stored.category : defaultState.category,
         season: seasons.includes(stored.season) ? stored.season : defaultState.season,
-        itineraryIds: Array.isArray(stored.itineraryIds) ? stored.itineraryIds.filter((id) => places.some((place) => place.id === id)) : []
+        itineraryIds
       };
     } catch (error) {
       return { ...defaultState };
@@ -72,18 +102,18 @@
 
   function getVisiblePlaces() {
     return places.filter((place) => {
-      const categoryMatches = state.category === "All categories" || place.category === state.category;
-      const seasonMatches = state.season === "All seasons" || place.season === state.season || place.season === "All year";
+      const categoryMatches = state.category === "All" || place.category === state.category;
+      const seasonMatches = state.season === "All Year" || place.seasons.includes("All Year") || place.seasons.includes(state.season);
       return categoryMatches && seasonMatches;
     });
   }
 
   function describeFilters(count) {
+    if (state.category === "All" && state.season === "All Year") return `Showing all ${count} places`;
     const descriptions = [];
-    if (state.category !== "All categories") descriptions.push(state.category.toLowerCase());
-    if (state.season !== "All seasons") descriptions.push(state.season.toLowerCase());
-    if (!descriptions.length) return `Showing all ${count} places`;
-    return `Showing ${count} ${count === 1 ? "place" : "places"} for ${descriptions.join(" in ")}`;
+    if (state.category !== "All") descriptions.push(state.category);
+    if (state.season !== "All Year") descriptions.push(state.season);
+    return `Showing ${count} ${count === 1 ? "place" : "places"} for ${descriptions.join(" · ")}`;
   }
 
   function makeFilterButton(label, group, buttonContainer) {
@@ -115,7 +145,7 @@
     const unsplashUrl = `https://unsplash.com/s/photos/${encodeURIComponent(`${place.name} Saudi Arabia`)}`;
     const article = document.createElement("article");
     article.className = "place-card";
-    article.dataset.placeId = String(place.id);
+    article.dataset.placeId = place.id;
     article.innerHTML = `
       <div class="card-media">
         <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.alt)}" loading="lazy">
@@ -123,7 +153,7 @@
       <div class="card-body">
         <div class="card-tags">
           <span class="category-tag">${escapeHTML(place.category)}</span>
-          <span class="season-tag">Best: ${escapeHTML(place.season)}</span>
+          <span class="season-tag">Best: ${escapeHTML(place.seasons.join(" · "))}</span>
         </div>
         <h3 tabindex="-1">${escapeHTML(place.name)}</h3>
         <p class="card-description">${escapeHTML(place.description)}</p>
@@ -185,12 +215,10 @@
   }
 
   function resetFilters() {
-    state.category = defaultState.category;
-    state.season = defaultState.season;
-    state.itineraryIds = [];
+    state = { ...defaultState };
     saveState();
     render();
-    announce("All 14 places are ready to explore.");
+    announce(`All ${places.length} places are ready to explore.`);
   }
 
   function randomIndex(length) {
@@ -220,35 +248,39 @@
     announce(`Surprise: ${choice.name}. It is now highlighted in the guide.`);
   }
 
-  function buildItinerary() {
-    const candidates = [...getVisiblePlaces()];
-    if (!candidates.length) {
-      announce("There are no matching places to add to an itinerary. Clear a filter and try again.");
-      return;
-    }
-
+  function selectItinerary(candidates) {
+    const orderedCandidates = [...candidates].sort((a, b) => (
+      a.planTime.localeCompare(b.planTime) || a.priority - b.priority || a.name.localeCompare(b.name)
+    ));
     const selected = [];
     const seenCategories = new Set();
-    candidates.sort((a, b) => a.planTime.localeCompare(b.planTime) || a.priority - b.priority);
 
-    for (const place of candidates) {
+    for (const place of orderedCandidates) {
       if (selected.length === 4) break;
       if (!seenCategories.has(place.category)) {
         selected.push(place);
         seenCategories.add(place.category);
       }
     }
-    for (const place of candidates) {
+    for (const place of orderedCandidates) {
       if (selected.length === 4) break;
       if (!selected.some((item) => item.id === place.id)) selected.push(place);
     }
+    return selected.sort((a, b) => a.planTime.localeCompare(b.planTime) || a.priority - b.priority);
+  }
 
-    state.itineraryIds = selected.sort((a, b) => a.planTime.localeCompare(b.planTime)).map((place) => place.id);
+  function buildItinerary() {
+    const selected = selectItinerary(getVisiblePlaces());
+    if (!selected.length) {
+      announce("There are no matching places to add to an itinerary. Clear a filter and try again.");
+      return;
+    }
+    state.itineraryIds = selected.map((place) => place.id);
     saveState();
     renderItinerary();
     elements.itinerary.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    const message = state.itineraryIds.length < 4
-      ? `Your ${state.itineraryIds.length}-stop route is ready from the places available in these filters.`
+    const message = selected.length < 4
+      ? `Your ${selected.length}-stop route is ready from the places available in these filters.`
       : "Your four-stop day in Abha is ready.";
     announce(message);
   }
@@ -261,10 +293,9 @@
   }
 
   function loadExample() {
-    resetFilters();
-    state.itineraryIds = [10, 5, 7, 13];
+    state = { ...defaultState, itineraryIds: selectItinerary(places).map((place) => place.id) };
     saveState();
-    renderItinerary();
+    render();
     announce("The example guide and a sample day are loaded.");
   }
 

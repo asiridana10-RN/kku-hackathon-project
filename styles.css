@@ -168,10 +168,10 @@ h1 i, h2 i { color: var(--sun); font-weight: 400; }
 .card-fallback p { position: relative; z-index: 1; max-width: 210px; margin: 0; font-family: var(--serif); font-size: 1.1rem; font-weight: 700; }
 .card-fallback a { position: relative; z-index: 1; margin-top: 5px; color: var(--sun); font-size: .76rem; font-weight: 800; }
 .card-body { display: flex; flex: 1; flex-direction: column; gap: 14px; padding: 18px; }
-.card-tags { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.card-tags { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 10px; }
 .category-tag, .season-tag { display: inline-flex; align-items: center; min-height: 24px; padding: 4px 8px; border-radius: 99px; font-size: .67rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
 .category-tag { color: var(--sun); background: rgba(232,193,91,.11); border: 1px solid rgba(232,193,91,.26); }
-.season-tag { color: var(--ink-muted); }
+.season-tag { max-width: 100%; color: var(--ink-muted); line-height: 1.35; text-align: right; }
 .card-body h3 { margin-bottom: 0; font-size: 1.61rem; line-height: 1.02; }
 .card-description { margin-bottom: 0; color: var(--ink-soft); font-size: .9rem; line-height: 1.58; }
 .card-footer { display: flex; justify-content: space-between; align-items: flex-end; gap: 11px; margin-top: auto; padding-top: 6px; }
@@ -204,7 +204,7 @@ h1 i, h2 i { color: var(--sun); font-weight: 400; }
 }
 @media (max-width: 680px) {
   .section-wrap { width: min(100% - 28px, 1160px); }
-  .hero { min-height: 660px; padding: 17px 14px 28px; }
+  .hero { min-height: 760px; padding: 17px 14px 28px; }
   .qatt-motif { top: 45px; height: 112px; }
   .brand { font-size: 1.15rem; }
   .brand-mark { width: 26px; height: 25px; }
