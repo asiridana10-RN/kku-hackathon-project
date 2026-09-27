@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An offline-friendly guide to fourteen memorable places in Abha and Aseer.">
+  <title>Abha Visitor Guide | Aseer, Saudi Arabia</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#discover">Skip to attractions</a>
+
+  <svg class="svg-definitions" aria-hidden="true" focusable="false">
+    <symbol id="icon-pin" viewBox="0 0 24 24">
+      <path d="M12 21s7-5.3 7-12a7 7 0 1 0-14 0c0 6.7 7 12 7 12Z"></path>
+      <circle cx="12" cy="9" r="2.4"></circle>
+    </symbol>
+    <symbol id="icon-spark" viewBox="0 0 24 24">
+      <path d="m12 2 1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7L12 2Z"></path>
+      <path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"></path>
+    </symbol>
+    <symbol id="icon-route" viewBox="0 0 24 24">
+      <path d="M5 20c0-3.6 5-4.4 5-8.2C10 8 5 8.6 5 5a3 3 0 1 1 6 0c0 1.6-1.2 2.6-2.5 3.5"></path>
+      <path d="M13 19h3a3 3 0 1 0 0-6h-2.5"></path>
+      <path d="M13 5h5"></path>
+    </symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24">
+      <path d="M5 12h14M13 6l6 6-6 6"></path>
+    </symbol>
+    <symbol id="icon-reset" viewBox="0 0 24 24">
+      <path d="M20 11a8 8 0 1 0 1.2 4.2"></path>
+      <path d="M20 4v7h-7"></path>
+    </symbol>
+  </svg>
+
+  <div class="site-shell">
+    <header class="hero">
+      <div class="mist mist-one" aria-hidden="true"></div>
+      <div class="mist mist-two" aria-hidden="true"></div>
+      <svg class="qatt-motif" viewBox="0 0 1440 132" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 34h124l32 30 32-30h124l32 30 32-30h124l32 30 32-30h124l32 30 32-30h124l32 30 32-30h124l32 30 32-30h124l32 30 32-30h124l32 30 32-30h124v34H0Z" fill="currentColor" opacity=".22"/>
+        <path d="M0 99h95l31-30 31 30h95l31-30 31 30h95l31-30 31 30h95l31-30 31 30h95l31-30 31 30h95l31-30 31 30h95l31-30 31 30h95l31-30 31 30h95l31-30 31 30h95l31-30 31 30h95v33H0Z" fill="currentColor" opacity=".16"/>
+        <path d="M0 17h1440M0 115h1440" stroke="currentColor" opacity=".35" stroke-width="2"/>
+      </svg>
+
+      <nav class="topbar" aria-label="Main navigation">
+        <a class="brand" href="#top" aria-label="Abha Visitor Guide home">
+          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Abha <em>Visitor Guide</em></span>
+        </a>
+        <a class="nav-link" href="#discover">Explore places <svg aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+      </nav>
+
+      <div class="hero-content" id="top">
+        <p class="eyebrow"><span></span> Aseer Highlands · Saudi Arabia</p>
+        <h1>Find your own <i>Abha</i> story.</h1>
+        <p class="hero-copy">A thoughtful guide to misty peaks, living heritage, and the creative pulse of Aseer — all in one day, or at your own pace.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#discover">Discover 14 places <svg aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+          <button class="button button-quiet" type="button" id="surpriseButton"><svg aria-hidden="true"><use href="#icon-spark"></use></svg> Surprise me</button>
+        </div>
+      </div>
+
+      <div class="hero-meta" aria-label="Guide summary">
+        <div><strong>14</strong><span>handpicked places</span></div>
+        <div><strong>4</strong><span>ways to explore</span></div>
+        <div><strong>∞</strong><span>mountain moments</span></div>
+      </div>
+    </header>
+
+    <main>
+      <section class="guide-tools section-wrap" id="discover" aria-labelledby="discover-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span></span> Shape your day</p>
+            <h2 id="discover-title">Where will <i>you</i> begin?</h2>
+          </div>
+          <p>Filter for your kind of adventure — then build an easy route from the places that call to you.</p>
+        </div>
+
+        <div class="filter-panel glass-panel">
+          <div class="filter-group">
+            <span class="filter-label">I want to explore</span>
+            <div class="chip-set" id="categoryFilters" aria-label="Filter by category"></div>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">Best season</span>
+            <div class="chip-set" id="seasonFilters" aria-label="Filter by season"></div>
+          </div>
+          <button class="text-button" type="button" id="resetFilters"><svg aria-hidden="true"><use href="#icon-reset"></use></svg> Reset filters</button>
+        </div>
+
+        <div class="planner glass-panel" id="planner">
+          <div class="planner-copy">
+            <div class="planner-icon" aria-hidden="true"><svg><use href="#icon-route"></use></svg></div>
+            <div>
+              <p class="eyebrow"><span></span> A day, made simple</p>
+              <h3>Plan My Day</h3>
+              <p>Get a varied route from the places you are viewing, arranged for an unhurried day in Abha.</p>
+            </div>
+          </div>
+          <button class="button button-primary" type="button" id="planButton">Build my itinerary <svg aria-hidden="true"><use href="#icon-arrow"></use></svg></button>
+        </div>
+
+        <section class="itinerary" id="itinerary" aria-labelledby="itinerary-title" hidden>
+          <div class="itinerary-heading">
+            <div>
+              <p class="eyebrow"><span></span> Your easy route</p>
+              <h3 id="itinerary-title">A day in Abha</h3>
+            </div>
+            <button class="icon-button" type="button" id="clearItinerary" aria-label="Clear itinerary">×</button>
+          </div>
+          <ol id="itineraryList"></ol>
+          <button class="text-button itinerary-reset" type="button" id="rebuildItinerary"><svg aria-hidden="true"><use href="#icon-reset"></use></svg> Make another route</button>
+        </section>
+      </section>
+
+      <section class="places-section section-wrap" aria-labelledby="places-title">
+        <div class="places-heading">
+          <div>
+            <p class="eyebrow"><span></span> The guide</p>
+            <h2 id="places-title">Places worth the <i>detour.</i></h2>
+          </div>
+          <p class="results-status" id="resultsStatus" role="status" aria-live="polite"></p>
+        </div>
+        <div class="places-grid" id="placesGrid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="footer section-wrap">
+      <div class="footer-pattern" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      <p><strong>Made for the curious.</strong> Local images are kept on your device; the guide works directly in your browser.</p>
+      <button class="text-button" type="button" id="loadExample"><svg aria-hidden="true"><use href="#icon-reset"></use></svg> Load example guide</button>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="sample-data/data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
