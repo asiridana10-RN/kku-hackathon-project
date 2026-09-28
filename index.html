@@ -31,6 +31,29 @@
       <path d="M20 11a8 8 0 1 0 1.2 4.2"></path>
       <path d="M20 4v7h-7"></path>
     </symbol>
+    <defs>
+      <pattern id="qatt-band-tile" width="120" height="56" patternUnits="userSpaceOnUse">
+        <rect width="120" height="56" fill="#F5EBE1"></rect>
+        <rect width="120" height="4" fill="#D32F2F"></rect>
+        <rect y="4" width="120" height="3" fill="#FBC02D"></rect>
+        <rect y="7" width="120" height="2" fill="#1976D2"></rect>
+        <rect y="9" width="120" height="2" fill="#388E3C"></rect>
+        <rect y="45" width="120" height="2" fill="#388E3C"></rect>
+        <rect y="47" width="120" height="2" fill="#1976D2"></rect>
+        <rect y="49" width="120" height="3" fill="#FBC02D"></rect>
+        <rect y="52" width="120" height="4" fill="#D32F2F"></rect>
+        <path d="M0 12 18 28 0 44M24 12 42 28 24 44M78 12 96 28 78 44M102 12 120 28 102 44" fill="none" stroke="#2C221E" stroke-width="1.5"></path>
+        <path d="M0 18 18 12 36 18M0 38 18 44 36 38M84 18 102 12 120 18M84 38 102 44 120 38" fill="none" stroke="#388E3C" stroke-width="2"></path>
+        <polygon points="42,28 51,13 60,28 51,43" fill="#1976D2" stroke="#2C221E" stroke-width="1.5"></polygon>
+        <polygon points="51,28 56,20 61,28 56,36" fill="#FFFDF7"></polygon>
+        <polygon points="60,28 69,13 78,28 69,43" fill="#D32F2F" stroke="#2C221E" stroke-width="1.5"></polygon>
+        <polygon points="69,28 74,20 79,28 74,36" fill="#FBC02D"></polygon>
+      </pattern>
+    </defs>
+    <symbol id="qatt-band" viewBox="0 0 960 56">
+      <rect width="960" height="56" fill="url(#qatt-band-tile)"></rect>
+      <path d="M0 11H960M0 45H960" fill="none" stroke="#2C221E" stroke-width="1.5"></path>
+    </symbol>
   </svg>
 
   <div class="site-shell" data-theme="september" data-effect="rain-soft">
@@ -43,6 +66,9 @@
         <span class="petal-layer">
           <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
         </span>
+        <svg class="qatt-strip qatt-strip-top" aria-hidden="true" focusable="false" viewBox="0 0 960 56" preserveAspectRatio="xMidYMid slice"><use href="#qatt-band"></use></svg>
+        <svg class="qatt-strip qatt-strip-side" aria-hidden="true" focusable="false" viewBox="0 0 56 960" preserveAspectRatio="xMidYMid slice"><use href="#qatt-band" transform="translate(0 960) rotate(-90)"></use></svg>
+        <svg class="qatt-strip qatt-strip-bottom" aria-hidden="true" focusable="false" viewBox="0 0 960 56" preserveAspectRatio="xMidYMid slice"><use href="#qatt-band" transform="translate(0 56) scale(1 -1)"></use></svg>
       </div>
 
       <nav class="topbar" aria-label="Main navigation">
