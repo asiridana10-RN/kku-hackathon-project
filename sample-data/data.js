@@ -53,7 +53,7 @@ window.PLACES = [
   },
   {
     id: "cafe-butter-bakery",
-    name: "Butter Bakery (Al-Hezam)",
+    name: "Butter Bakery",
     category: "Cafes",
     availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "45–60 minutes",
@@ -449,7 +449,8 @@ window.ALL_YEAR_ROUND = {
       label: "Cafes",
       items: [
         { label: "Near Cafe", placeId: "cafe-near" },
-        { label: "Butter Bakery (Al-Hezam)", placeId: "cafe-butter-bakery" }
+        { label: "Butter Bakery", placeId: "cafe-butter-bakery" },
+        { label: "Black by Location", placeId: "cafe-black-by-location" }
       ]
     }
   ]
