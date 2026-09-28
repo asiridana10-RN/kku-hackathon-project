@@ -1,13 +1,13 @@
 window.PLACES = [
   {
-    id: "dining-sdaf",
-    name: "Sdaf Restaurant",
+    id: "dining-sadaf",
+    name: "Sadaf Restaurant",
     category: "Dining",
     seasons: ["All Year"],
     duration: "1–2 hours",
-    mapQuery: "Sdaf Restaurant, Abha, Saudi Arabia",
+    mapQuery: "Sadaf Restaurant, Abha, Saudi Arabia",
     image: "./images/place1.jpg",
-    alt: "A southern Saudi meal at Sdaf Restaurant in Abha",
+    alt: "A southern Saudi meal at Sadaf Restaurant in Abha",
     description: "Authentic southern dishes including Areeqah and traditional local specialties",
     planTime: "12:30",
     priority: 1
@@ -145,7 +145,7 @@ window.PLACES = [
   {
     id: "activity-seven-abha",
     name: "Seven Abha",
-    category: "Activities & Nature",
+    category: "Activities",
     seasons: ["All Year"],
     duration: "2–3 hours",
     mapQuery: "Seven Abha, Saudi Arabia",
@@ -158,7 +158,7 @@ window.PLACES = [
   {
     id: "activity-hiking-trails",
     name: "Mountain Hiking Trails",
-    category: "Activities & Nature",
+    category: "Activities",
     seasons: ["Summer & Rainy Season"],
     duration: "3–4 hours",
     mapQuery: "Mountain hiking trails, Abha, Saudi Arabia",
@@ -171,7 +171,7 @@ window.PLACES = [
   {
     id: "activity-meditation-soudah",
     name: "Meditation at Soudah Peaks",
-    category: "Activities & Nature",
+    category: "Activities",
     seasons: ["Summer & Rainy Season"],
     duration: "1–2 hours",
     mapQuery: "Soudah Peaks, Abha, Saudi Arabia",
@@ -182,9 +182,9 @@ window.PLACES = [
     priority: 2
   },
   {
-    id: "activity-bani-mazen",
+    id: "nature-bani-mazen",
     name: "Bani Mazen Villages",
-    category: "Activities & Nature",
+    category: "Nature",
     seasons: ["Summer & Rainy Season"],
     duration: "2–3 hours",
     mapQuery: "Bani Mazen Villages, Aseer, Saudi Arabia",
@@ -192,12 +192,12 @@ window.PLACES = [
     alt: "Green mountain valleys near Bani Mazen Villages",
     description: "Scenic mountain valleys, lush greenery, and serene countryside atmosphere",
     planTime: "11:30",
-    priority: 3
+    priority: 1
   },
   {
     id: "activity-strawberry-farm",
     name: "Strawberry Farm (Soudah)",
-    category: "Activities & Nature",
+    category: "Activities",
     seasons: ["Summer & Rainy Season"],
     duration: "1–2 hours",
     mapQuery: "Strawberry Farm Soudah, Abha, Saudi Arabia",
@@ -205,12 +205,12 @@ window.PLACES = [
     alt: "Strawberries growing in the Soudah mountain area",
     description: "Interactive strawberry picking experience in the chilly mountain atmosphere",
     planTime: "13:30",
-    priority: 4
+    priority: 3
   },
   {
-    id: "activity-honey-hut",
+    id: "heritage-honey-hut",
     name: "Honey Hut",
-    category: "Activities & Nature",
+    category: "Heritage & Markets",
     seasons: ["All Year"],
     duration: "45–60 minutes",
     mapQuery: "Honey Hut, Abha, Saudi Arabia",
@@ -218,12 +218,12 @@ window.PLACES = [
     alt: "Local mountain honey at a Honey Hut in Aseer",
     description: "Taste pure organic mountain honey and learn about local beekeeping traditions",
     planTime: "12:00",
-    priority: 5
+    priority: 3
   },
   {
-    id: "activity-art-street",
+    id: "nature-art-street",
     name: "Art Street",
-    category: "Activities & Nature",
+    category: "Nature",
     seasons: ["Jacaranda & Spring"],
     duration: "1–2 hours",
     mapQuery: "Art Street, Abha, Saudi Arabia",
@@ -232,5 +232,83 @@ window.PLACES = [
     description: "A vibrant pedestrian path surrounded by blooming purple Jacaranda trees",
     planTime: "17:30",
     priority: 1
+  },
+  {
+    id: "activity-tahlal-museum",
+    name: "Tahlal Museum",
+    category: "Activities",
+    seasons: ["All Year"],
+    duration: "1–2 hours",
+    mapQuery: "Tahlal Museum, Abha, Saudi Arabia",
+    image: "./images/place19.jpg",
+    alt: "Cultural artifacts displayed at Tahlal Museum in Abha",
+    description: "A rich local museum displaying authentic cultural artifacts and regional heritage",
+    planTime: "10:00",
+    priority: 1
+  },
+  {
+    id: "activity-al-qatt-museum",
+    name: "Al-Qatt Al-Asiri Museum",
+    category: "Activities",
+    seasons: ["All Year"],
+    duration: "1–2 hours",
+    mapQuery: "Al-Qatt Al-Asiri Museum, Abha, Saudi Arabia",
+    image: "./images/place20.jpg",
+    alt: "Colourful Al-Qatt Al-Asiri geometric art in an Abha museum",
+    description: "Exhibiting the vibrant geometric wall-painting art traditional to Aseer women",
+    planTime: "14:30",
+    priority: 2
+  },
+  {
+    id: "nature-ezz-overlook",
+    name: "Ezz Overlook in Soudah",
+    category: "Nature",
+    seasons: ["All Year"],
+    duration: "1–2 hours",
+    mapQuery: "Ezz Overlook, Soudah, Saudi Arabia",
+    image: "./images/place21.jpg",
+    alt: "Tihama mountain cliffs viewed from Ezz Overlook in Soudah",
+    description: "Spectacular panoramic cliff views over the dramatic Tihama mountains",
+    planTime: "16:30",
+    priority: 1
+  },
+  {
+    id: "nature-cloud-overlook",
+    name: "Cloud Overlook in Soudah (Al-Sahab)",
+    category: "Nature",
+    seasons: ["Summer & Rainy Season"],
+    duration: "1–2 hours",
+    mapQuery: "Cloud Overlook Al-Sahab, Soudah, Saudi Arabia",
+    image: "./images/place22.jpg",
+    alt: "Clouds below the high-altitude Al-Sahab overlook in Soudah",
+    description: "Breathtaking high-altitude viewpoint where you literally stand above the clouds",
+    planTime: "17:00",
+    priority: 2
+  },
+  {
+    id: "heritage-al-muftaha",
+    name: "Al-Muftaha Village",
+    category: "Heritage & Markets",
+    seasons: ["All Year"],
+    duration: "1–2 hours",
+    mapQuery: "Al-Muftaha Village, Abha, Saudi Arabia",
+    image: "./images/place23.jpg",
+    alt: "Traditional architecture and galleries at Al-Muftaha Village in Abha",
+    description: "A famous cultural and artistic center featuring galleries, studios, and traditional architecture",
+    planTime: "15:30",
+    priority: 4
+  },
+  {
+    id: "heritage-bastat-al-qabil",
+    name: "Bastat Al-Qabil",
+    category: "Heritage & Markets",
+    seasons: ["All Year"],
+    duration: "1–2 hours",
+    mapQuery: "Bastat Al-Qabil, Abha, Saudi Arabia",
+    image: "./images/place24.jpg",
+    alt: "A traditional pedestrian market street in Abha",
+    description: "A historic traditional market and pedestrian street offering authentic local items and vibes",
+    planTime: "18:00",
+    priority: 5
   }
 ];

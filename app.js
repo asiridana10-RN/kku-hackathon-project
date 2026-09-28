@@ -4,9 +4,17 @@
   const places = Array.isArray(window.PLACES) ? window.PLACES : [];
   const storageKey = "abha-visitor-guide-state";
   const schemaVersion = 2;
-  const datasetVersion = "abha-18-places-v1";
-  const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Activities & Nature"];
+  const datasetVersion = "abha-24-places-v2";
+  const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
   const seasons = ["All Year", "Winter & Spring", "Summer & Rainy Season", "Jacaranda & Spring"];
+  const catalogSize = 24;
+  const categoryTotals = {
+    Dining: 3,
+    Cafes: 4,
+    "Heritage & Markets": 7,
+    Nature: 4,
+    Activities: 6
+  };
   const defaultState = {
     schemaVersion,
     datasetVersion,
@@ -36,12 +44,13 @@
 
   function isValidData() {
     const allowedCategories = categories.filter((category) => category !== "All");
-    const categoryTotals = Object.fromEntries(allowedCategories.map((category) => [category, 0]));
+    const actualCategoryTotals = Object.fromEntries(allowedCategories.map((category) => [category, 0]));
     const ids = new Set();
     const images = new Set();
     const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/;
+    const imagePattern = new RegExp(`^\\./images/place(?:[1-9]|1\\d|2[0-${catalogSize - 20}])\\.jpg$`);
 
-    if (places.length !== 18) return false;
+    if (places.length !== catalogSize) return false;
 
     for (const place of places) {
       if (!place || typeof place !== "object" || typeof place.id !== "string" || !place.id.trim() || ids.has(place.id)) return false;
@@ -49,18 +58,15 @@
       if (!Array.isArray(place.seasons) || !place.seasons.length || place.seasons.some((season) => !seasons.includes(season))) return false;
       if (!["name", "description", "duration", "mapQuery", "image", "alt"].every((field) => typeof place[field] === "string" && place[field].trim())) return false;
       if (!timePattern.test(place.planTime) || !Number.isInteger(place.priority) || place.priority < 1) return false;
-      if (!/^\.\/images\/place(?:[1-9]|1[0-8])\.jpg$/.test(place.image) || images.has(place.image)) return false;
+      if (!imagePattern.test(place.image) || images.has(place.image)) return false;
       ids.add(place.id);
       images.add(place.image);
-      categoryTotals[place.category] += 1;
+      actualCategoryTotals[place.category] += 1;
     }
 
-    const expectedImages = Array.from({ length: 18 }, (_, index) => `./images/place${index + 1}.jpg`);
+    const expectedImages = Array.from({ length: catalogSize }, (_, index) => `./images/place${index + 1}.jpg`);
     return expectedImages.every((image) => images.has(image)) &&
-      categoryTotals.Dining === 3 &&
-      categoryTotals.Cafes === 4 &&
-      categoryTotals["Heritage & Markets"] === 4 &&
-      categoryTotals["Activities & Nature"] === 7;
+      allowedCategories.every((category) => actualCategoryTotals[category] === categoryTotals[category]);
   }
 
   function readState() {

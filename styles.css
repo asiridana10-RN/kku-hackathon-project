@@ -204,6 +204,7 @@ h1 i, h2 i { color: var(--sun); font-weight: 400; }
 }
 @media (max-width: 680px) {
   .section-wrap { width: min(100% - 28px, 1160px); }
+  .filter-chip { padding-inline: 7px; font-size: .7rem; }
   .hero { min-height: 760px; padding: 17px 14px 28px; }
   .qatt-motif { top: 45px; height: 112px; }
   .brand { font-size: 1.15rem; }
