@@ -2,7 +2,7 @@
 
 ## What it does
 
-A polished, single-page guide to 24 handpicked dining, cafe, heritage, market, nature, and activity locations in Abha and Aseer. Choose a month to see its local guide, featured destinations, and matching places; filter by category, open a location in Google Maps, generate an easy four-stop day, or use **Surprise me** to discover a random place.
+A polished, single-page guide to 24 handpicked dining, cafe, heritage, market, nature, and activity locations in Abha and Aseer. Choose a month to transform the guide into its own Modern Aseer & Al-Qatt Al-Asiri palette, hero story, atmospheric effects, featured experiences, and matching places; then filter by category, open a location in Google Maps, generate an easy four-stop day, or use **Surprise me** to discover a random place.
 
 ## Who it is for
 
@@ -28,8 +28,11 @@ The browser may save only your selected filters and generated itinerary IDs in l
 
 - Twenty-four English-language places across Abha and Aseer
 - Exact categories: All, Dining, Cafes, Heritage & Markets, Nature, and Activities
-- Twelve month guides with dedicated descriptions and three featured destinations each
+- A dedicated **Choose Your Month in Abha** selector with twelve touch-friendly month cards
+- Twelve dynamic monthly themes with distinct hero titles, subtitles, Al-Qatt-inspired palettes, and CSS-only mist, cloud, or rain details
+- Three featured experiences that update with each selected month
 - A permanent All Year Round restaurant and cafe recommendation section
+- CSS-generated Al-Qatt Al-Asiri-inspired diamonds, triangles, parallel lines, and corner frames; no remote fonts, scripts, image embeds, or libraries required for the design system
 - Google Maps search buttons for every catalog place
 - **Plan My Day** route generator that respects the selected month and category
 - **Surprise me** random place picker that respects the selected month and category

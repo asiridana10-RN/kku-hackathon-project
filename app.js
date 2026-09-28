@@ -5,8 +5,10 @@
   const months = Array.isArray(window.MONTHS) ? window.MONTHS : [];
   const allYearRound = window.ALL_YEAR_ROUND && typeof window.ALL_YEAR_ROUND === "object" ? window.ALL_YEAR_ROUND : null;
   const storageKey = "abha-visitor-guide-state";
-  const schemaVersion = 3;
-  const datasetVersion = "abha-24-monthly-v3";
+  const schemaVersion = 4;
+  const datasetVersion = "abha-24-aseeri-themes-v4";
+  const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  const allowedEffects = ["calm", "warm", "spring", "fog", "rain", "cloud", "rain-soft"];
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
   const catalogSize = 24;
   const categoryTotals = {
@@ -27,13 +29,16 @@
   };
 
   const elements = {
+    siteShell: document.querySelector(".site-shell"),
+    heroKicker: document.getElementById("heroKicker"),
+    heroTitle: document.getElementById("heroTitle"),
+    heroSubtitle: document.getElementById("heroSubtitle"),
+    heroDescription: document.getElementById("heroDescription"),
     categoryFilters: document.getElementById("categoryFilters"),
     monthNav: document.getElementById("monthNav"),
-    monthBanner: document.getElementById("monthBanner"),
-    monthBannerTitle: document.getElementById("monthBannerTitle"),
-    monthDescription: document.getElementById("monthDescription"),
     featuredSection: document.getElementById("featuredSection"),
     featuredTitle: document.getElementById("featuredTitle"),
+    featuredDescription: document.getElementById("featuredDescription"),
     featuredGrid: document.getElementById("featuredGrid"),
     allYearSection: document.getElementById("allYearSection"),
     allYearSubtitle: document.getElementById("allYearSubtitle"),
@@ -67,7 +72,10 @@
     const imagePattern = new RegExp(`^\\./images/place(?:[1-9]|1\\d|2[0-${catalogSize - 20}])\\.jpg$`);
 
     if (places.length !== catalogSize || months.length !== expectedMonthIds.length || !allYearRound) return false;
-    if (!months.every((month, index) => month && month.id === expectedMonthIds[index] && typeof month.label === "string" && month.label.trim() && typeof month.description === "string" && month.description.trim() && Array.isArray(month.featuredIds) && month.featuredIds.length === 3 && new Set(month.featuredIds).size === 3)) return false;
+    if (!months.every((month, index) => month && month.id === expectedMonthIds[index] &&
+      ["label", "shortLabel", "icon", "theme", "effect", "heroTitle", "heroSubtitle", "description"].every((field) => typeof month[field] === "string" && month[field].trim()) &&
+      month.shortLabel.length <= 3 && allowedThemeKeys.includes(month.theme) && allowedEffects.includes(month.effect) &&
+      Array.isArray(month.featuredIds) && month.featuredIds.length === 3 && new Set(month.featuredIds).size === 3)) return false;
 
     for (const place of places) {
       if (!place || typeof place !== "object" || typeof place.id !== "string" || !place.id.trim() || ids.has(place.id)) return false;
@@ -152,7 +160,7 @@
     button.className = group === "month" ? `month-chip${selected ? " is-selected" : ""}` : `filter-chip${selected ? " is-selected" : ""}`;
     if (group === "month") {
       const month = getMonth(label);
-      button.innerHTML = `<span aria-hidden="true">${escapeHTML(month.icon)}</span><span>${escapeHTML(month.label)}</span>`;
+      button.innerHTML = `<span class="month-icon" aria-hidden="true">${escapeHTML(month.icon)}</span><span class="month-name">${escapeHTML(month.shortLabel)}</span>`;
       button.setAttribute("aria-label", `Show ${month.label} guide`);
     } else {
       button.textContent = label;
@@ -220,13 +228,21 @@
     return article;
   }
 
-  function renderMonthContext() {
+  function renderMonthPresentation() {
     const month = getMonth(state.monthId);
-    elements.monthBannerTitle.textContent = `${month.icon} ${month.label} in Abha`;
-    elements.monthDescription.textContent = month.description;
-    elements.featuredTitle.textContent = `Featured Destinations for ${month.label}`;
+    elements.siteShell.dataset.theme = month.theme;
+    elements.siteShell.dataset.effect = month.effect;
+    document.title = `${month.heroTitle} | Abha Visitor Guide`;
+    elements.heroKicker.innerHTML = `<span></span> ${escapeHTML(month.icon)} Aseer Highlands · Saudi Arabia`;
+    elements.heroTitle.textContent = month.heroTitle;
+    elements.heroSubtitle.textContent = month.heroSubtitle;
+    elements.heroDescription.textContent = month.description;
+    elements.featuredTitle.textContent = `Featured Experiences for ${month.label}`;
+    elements.featuredDescription.textContent = `Three handpicked experiences shaped by ${month.label}'s weather, colors, and Aseeri character.`;
     elements.featuredGrid.innerHTML = "";
-    month.featuredIds.map((id) => places.find((place) => place.id === id)).forEach((place) => elements.featuredGrid.append(createCard(place, true)));
+    month.featuredIds
+      .map((id) => places.find((place) => place.id === id))
+      .forEach((place) => elements.featuredGrid.append(createCard(place, true)));
   }
 
   function renderAllYearRound() {
@@ -291,8 +307,8 @@
   }
 
   function render() {
+    renderMonthPresentation();
     renderFilters();
-    renderMonthContext();
     renderPlaces();
     renderItinerary();
     renderAllYearRound();
@@ -396,7 +412,9 @@
     elements.resultsStatus.textContent = "Guide data unavailable";
     elements.categoryFilters.innerHTML = "";
     elements.monthNav.innerHTML = "";
-    elements.monthBanner.hidden = true;
+    elements.heroTitle.textContent = "Guide unavailable";
+    elements.heroSubtitle.textContent = "Please reload the local guide";
+    elements.heroDescription.textContent = message;
     elements.featuredSection.hidden = true;
     elements.allYearSection.hidden = true;
     elements.planButton.disabled = true;
