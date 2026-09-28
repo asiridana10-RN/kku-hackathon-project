@@ -2,11 +2,12 @@
   "use strict";
 
   const places = Array.isArray(window.PLACES) ? window.PLACES : [];
+  const months = Array.isArray(window.MONTHS) ? window.MONTHS : [];
+  const allYearRound = window.ALL_YEAR_ROUND && typeof window.ALL_YEAR_ROUND === "object" ? window.ALL_YEAR_ROUND : null;
   const storageKey = "abha-visitor-guide-state";
-  const schemaVersion = 2;
-  const datasetVersion = "abha-24-places-v2";
+  const schemaVersion = 3;
+  const datasetVersion = "abha-24-monthly-v3";
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
-  const seasons = ["All Year", "Winter & Spring", "Summer & Rainy Season", "Jacaranda & Spring"];
   const catalogSize = 24;
   const categoryTotals = {
     Dining: 3,
@@ -15,17 +16,28 @@
     Nature: 4,
     Activities: 6
   };
+  const expectedMonthIds = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+  const defaultMonthId = expectedMonthIds[new Date().getMonth()];
   const defaultState = {
     schemaVersion,
     datasetVersion,
     category: "All",
-    season: "All Year",
+    monthId: defaultMonthId,
     itineraryIds: []
   };
 
   const elements = {
     categoryFilters: document.getElementById("categoryFilters"),
-    seasonFilters: document.getElementById("seasonFilters"),
+    monthNav: document.getElementById("monthNav"),
+    monthBanner: document.getElementById("monthBanner"),
+    monthBannerTitle: document.getElementById("monthBannerTitle"),
+    monthDescription: document.getElementById("monthDescription"),
+    featuredSection: document.getElementById("featuredSection"),
+    featuredTitle: document.getElementById("featuredTitle"),
+    featuredGrid: document.getElementById("featuredGrid"),
+    allYearSection: document.getElementById("allYearSection"),
+    allYearSubtitle: document.getElementById("allYearSubtitle"),
+    allYearGroups: document.getElementById("allYearGroups"),
     placesGrid: document.getElementById("placesGrid"),
     resultsStatus: document.getElementById("resultsStatus"),
     resetFilters: document.getElementById("resetFilters"),
@@ -42,6 +54,10 @@
   let state = readState();
   let toastTimeout;
 
+  function getMonth(monthId) {
+    return months.find((month) => month.id === monthId);
+  }
+
   function isValidData() {
     const allowedCategories = categories.filter((category) => category !== "All");
     const actualCategoryTotals = Object.fromEntries(allowedCategories.map((category) => [category, 0]));
@@ -50,13 +66,14 @@
     const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/;
     const imagePattern = new RegExp(`^\\./images/place(?:[1-9]|1\\d|2[0-${catalogSize - 20}])\\.jpg$`);
 
-    if (places.length !== catalogSize) return false;
+    if (places.length !== catalogSize || months.length !== expectedMonthIds.length || !allYearRound) return false;
+    if (!months.every((month, index) => month && month.id === expectedMonthIds[index] && typeof month.label === "string" && month.label.trim() && typeof month.description === "string" && month.description.trim() && Array.isArray(month.featuredIds) && month.featuredIds.length === 3 && new Set(month.featuredIds).size === 3)) return false;
 
     for (const place of places) {
       if (!place || typeof place !== "object" || typeof place.id !== "string" || !place.id.trim() || ids.has(place.id)) return false;
       if (!allowedCategories.includes(place.category)) return false;
-      if (!Array.isArray(place.seasons) || !place.seasons.length || place.seasons.some((season) => !seasons.includes(season))) return false;
-      if (!["name", "description", "duration", "mapQuery", "image", "alt"].every((field) => typeof place[field] === "string" && place[field].trim())) return false;
+      if (!Array.isArray(place.availableMonths) || !place.availableMonths.length || place.availableMonths.some((monthId) => !expectedMonthIds.includes(monthId))) return false;
+      if (![("name"), ("description"), ("duration"), ("mapQuery"), ("image"), ("alt")].every((field) => typeof place[field] === "string" && place[field].trim())) return false;
       if (!timePattern.test(place.planTime) || !Number.isInteger(place.priority) || place.priority < 1) return false;
       if (!imagePattern.test(place.image) || images.has(place.image)) return false;
       ids.add(place.id);
@@ -64,8 +81,17 @@
       actualCategoryTotals[place.category] += 1;
     }
 
+    if (!months.every((month) => month.featuredIds.every((id) => {
+      const featuredPlace = places.find((place) => place.id === id);
+      return featuredPlace && featuredPlace.availableMonths.includes(month.id);
+    }))) return false;
+
     const expectedImages = Array.from({ length: catalogSize }, (_, index) => `./images/place${index + 1}.jpg`);
-    return expectedImages.every((image) => images.has(image)) &&
+    const validAllYearGroups = typeof allYearRound.subtitle === "string" && allYearRound.subtitle.trim() &&
+      Array.isArray(allYearRound.groups) && allYearRound.groups.length === 2 &&
+      allYearRound.groups.every((group) => group && typeof group.label === "string" && Array.isArray(group.items) && group.items.length && group.items.every((item) => !item.placeId || ids.has(item.placeId)));
+
+    return validAllYearGroups && expectedImages.every((image) => images.has(image)) &&
       allowedCategories.every((category) => actualCategoryTotals[category] === categoryTotals[category]);
   }
 
@@ -80,7 +106,7 @@
       return {
         ...defaultState,
         category: categories.includes(stored.category) ? stored.category : defaultState.category,
-        season: seasons.includes(stored.season) ? stored.season : defaultState.season,
+        monthId: expectedMonthIds.includes(stored.monthId) ? stored.monthId : defaultState.monthId,
         itineraryIds
       };
     } catch (error) {
@@ -109,48 +135,57 @@
   function getVisiblePlaces() {
     return places.filter((place) => {
       const categoryMatches = state.category === "All" || place.category === state.category;
-      const seasonMatches = state.season === "All Year" || place.seasons.includes("All Year") || place.seasons.includes(state.season);
-      return categoryMatches && seasonMatches;
+      return categoryMatches && place.availableMonths.includes(state.monthId);
     });
   }
 
   function describeFilters(count) {
-    if (state.category === "All" && state.season === "All Year") return `Showing all ${count} places`;
-    const descriptions = [];
-    if (state.category !== "All") descriptions.push(state.category);
-    if (state.season !== "All Year") descriptions.push(state.season);
-    return `Showing ${count} ${count === 1 ? "place" : "places"} for ${descriptions.join(" · ")}`;
+    const month = getMonth(state.monthId);
+    const categoryText = state.category === "All" ? "all categories" : state.category;
+    return `Showing ${count} ${count === 1 ? "place" : "places"} available in ${month.label} · ${categoryText}`;
   }
 
   function makeFilterButton(label, group, buttonContainer) {
     const button = document.createElement("button");
-    const selected = group === "category" ? state.category === label : state.season === label;
+    const selected = group === "category" ? state.category === label : state.monthId === label;
     button.type = "button";
-    button.className = `filter-chip${selected ? " is-selected" : ""}`;
-    button.textContent = label;
+    button.className = group === "month" ? `month-chip${selected ? " is-selected" : ""}` : `filter-chip${selected ? " is-selected" : ""}`;
+    if (group === "month") {
+      const month = getMonth(label);
+      button.innerHTML = `<span aria-hidden="true">${escapeHTML(month.icon)}</span><span>${escapeHTML(month.label)}</span>`;
+      button.setAttribute("aria-label", `Show ${month.label} guide`);
+    } else {
+      button.textContent = label;
+    }
     button.setAttribute("aria-pressed", String(selected));
+    button.dataset.filterGroup = group;
+    button.dataset.filterValue = label;
     button.addEventListener("click", () => {
       if (group === "category") state.category = label;
-      else state.season = label;
+      else state.monthId = label;
       state.itineraryIds = [];
       saveState();
       render();
+      const refreshedButton = [...buttonContainer.querySelectorAll("button")].find((entry) => (
+        entry.dataset.filterGroup === group && entry.dataset.filterValue === label
+      ));
+      refreshedButton?.focus();
     });
     buttonContainer.append(button);
   }
 
   function renderFilters() {
     elements.categoryFilters.innerHTML = "";
-    elements.seasonFilters.innerHTML = "";
+    elements.monthNav.innerHTML = "";
     categories.forEach((category) => makeFilterButton(category, "category", elements.categoryFilters));
-    seasons.forEach((season) => makeFilterButton(season, "season", elements.seasonFilters));
+    expectedMonthIds.forEach((monthId) => makeFilterButton(monthId, "month", elements.monthNav));
   }
 
-  function createCard(place) {
+  function createCard(place, featured = false) {
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.mapQuery)}`;
     const unsplashUrl = `https://unsplash.com/s/photos/${encodeURIComponent(`${place.name} Saudi Arabia`)}`;
     const article = document.createElement("article");
-    article.className = "place-card";
+    article.className = `place-card${featured ? " featured-card" : ""}`;
     article.dataset.placeId = place.id;
     article.innerHTML = `
       <div class="card-media">
@@ -159,7 +194,7 @@
       <div class="card-body">
         <div class="card-tags">
           <span class="category-tag">${escapeHTML(place.category)}</span>
-          <span class="season-tag">Best: ${escapeHTML(place.seasons.join(" · "))}</span>
+          <span class="season-tag">Available: ${escapeHTML(place.availableMonths.length === expectedMonthIds.length ? "All year" : `${place.availableMonths.length} months`)}</span>
         </div>
         <h3 tabindex="-1">${escapeHTML(place.name)}</h3>
         <p class="card-description">${escapeHTML(place.description)}</p>
@@ -183,6 +218,47 @@
       article.querySelector(".card-media").append(fallback);
     }, { once: true });
     return article;
+  }
+
+  function renderMonthContext() {
+    const month = getMonth(state.monthId);
+    elements.monthBannerTitle.textContent = `${month.icon} ${month.label} in Abha`;
+    elements.monthDescription.textContent = month.description;
+    elements.featuredTitle.textContent = `Featured Destinations for ${month.label}`;
+    elements.featuredGrid.innerHTML = "";
+    month.featuredIds.map((id) => places.find((place) => place.id === id)).forEach((place) => elements.featuredGrid.append(createCard(place, true)));
+  }
+
+  function renderAllYearRound() {
+    elements.allYearSubtitle.textContent = allYearRound.subtitle;
+    elements.allYearGroups.innerHTML = "";
+    allYearRound.groups.forEach((group) => {
+      const groupElement = document.createElement("section");
+      groupElement.className = "all-year-group";
+      groupElement.innerHTML = `<h3>${escapeHTML(group.label)}</h3><ul></ul>`;
+      const list = groupElement.querySelector("ul");
+      group.items.forEach((item) => {
+        const listItem = document.createElement("li");
+        if (item.placeId) {
+          const place = places.find((entry) => entry.id === item.placeId);
+          listItem.innerHTML = `<a href="#placesGrid" data-scroll-place="${escapeHTML(place.id)}">${escapeHTML(item.label)}</a>`;
+          listItem.querySelector("a").addEventListener("click", (event) => {
+            event.preventDefault();
+            const card = document.querySelector(`[data-place-id="${place.id}"]`);
+            if (card) {
+              card.scrollIntoView({ behavior: "smooth", block: "center" });
+              card.querySelector("h3").focus({ preventScroll: true });
+            } else {
+              announce(`${place.name} is available in the full guide, but not in the ${getMonth(state.monthId).label} results.`);
+            }
+          });
+        } else {
+          listItem.textContent = item.label;
+        }
+        list.append(listItem);
+      });
+      elements.allYearGroups.append(groupElement);
+    });
   }
 
   function renderPlaces() {
@@ -216,15 +292,17 @@
 
   function render() {
     renderFilters();
+    renderMonthContext();
     renderPlaces();
     renderItinerary();
+    renderAllYearRound();
   }
 
   function resetFilters() {
     state = { ...defaultState };
     saveState();
     render();
-    announce(`All ${places.length} places are ready to explore.`);
+    announce(`${getMonth(state.monthId).label} is ready to explore.`);
   }
 
   function randomIndex(length) {
@@ -251,7 +329,7 @@
     const heading = card.querySelector("h3");
     window.setTimeout(() => heading.focus({ preventScroll: true }), 280);
     window.setTimeout(() => card.classList.remove("is-surprise"), 3000);
-    announce(`Surprise: ${choice.name}. It is now highlighted in the guide.`);
+    announce(`Surprise: ${choice.name}. It is now highlighted in the ${getMonth(state.monthId).label} guide.`);
   }
 
   function selectItinerary(candidates) {
@@ -286,8 +364,8 @@
     renderItinerary();
     elements.itinerary.scrollIntoView({ behavior: "smooth", block: "nearest" });
     const message = selected.length < 4
-      ? `Your ${selected.length}-stop route is ready from the places available in these filters.`
-      : "Your four-stop day in Abha is ready.";
+      ? `Your ${selected.length}-stop ${getMonth(state.monthId).label} route is ready from the places available in these filters.`
+      : `Your four-stop ${getMonth(state.monthId).label} day in Abha is ready.`;
     announce(message);
   }
 
@@ -299,10 +377,10 @@
   }
 
   function loadExample() {
-    state = { ...defaultState, itineraryIds: selectItinerary(places).map((place) => place.id) };
+    state = { ...defaultState, itineraryIds: selectItinerary(getVisiblePlaces()).map((place) => place.id) };
     saveState();
     render();
-    announce("The example guide and a sample day are loaded.");
+    announce(`The ${getMonth(state.monthId).label} guide and a sample day are loaded.`);
   }
 
   function announce(message) {
@@ -317,7 +395,10 @@
     elements.placesGrid.innerHTML = `<div class="empty-state"><h3>Guide unavailable</h3><p>${message}</p></div>`;
     elements.resultsStatus.textContent = "Guide data unavailable";
     elements.categoryFilters.innerHTML = "";
-    elements.seasonFilters.innerHTML = "";
+    elements.monthNav.innerHTML = "";
+    elements.monthBanner.hidden = true;
+    elements.featuredSection.hidden = true;
+    elements.allYearSection.hidden = true;
     elements.planButton.disabled = true;
     elements.surpriseButton.disabled = true;
   }

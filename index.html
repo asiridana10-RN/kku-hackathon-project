@@ -83,12 +83,27 @@
             <span class="filter-label">I want to explore</span>
             <div class="chip-set" id="categoryFilters" aria-label="Filter by category"></div>
           </div>
-          <div class="filter-group">
-            <span class="filter-label">Best season</span>
-            <div class="chip-set" id="seasonFilters" aria-label="Filter by season"></div>
+          <div class="filter-group month-filter-group">
+            <span class="filter-label">When are you visiting?</span>
+            <div class="month-nav" id="monthNav" aria-label="Choose a month"></div>
           </div>
           <button class="text-button" type="button" id="resetFilters"><svg aria-hidden="true"><use href="#icon-reset"></use></svg> Reset filters</button>
         </div>
+
+        <section class="month-context" aria-labelledby="monthBannerTitle">
+          <div class="month-banner glass-panel" id="monthBanner">
+            <p class="eyebrow"><span></span> Your monthly guide</p>
+            <h3 id="monthBannerTitle"></h3>
+            <p id="monthDescription"></p>
+          </div>
+          <div class="featured-section" id="featuredSection" aria-labelledby="featuredTitle">
+            <div class="featured-heading">
+              <p class="eyebrow"><span></span> Curated for right now</p>
+              <h3 id="featuredTitle"></h3>
+            </div>
+            <div class="featured-grid" id="featuredGrid"></div>
+          </div>
+        </section>
 
         <div class="planner glass-panel" id="planner">
           <div class="planner-copy">
@@ -124,6 +139,15 @@
           <p class="results-status" id="resultsStatus" role="status" aria-live="polite"></p>
         </div>
         <div class="places-grid" id="placesGrid" aria-live="polite"></div>
+      </section>
+
+      <section class="all-year-section section-wrap" id="allYearSection" aria-labelledby="allYearTitle">
+        <div class="all-year-heading">
+          <p class="eyebrow"><span></span> Always a good idea</p>
+          <h2 id="allYearTitle">All Year <i>Round.</i></h2>
+          <p id="allYearSubtitle"></p>
+        </div>
+        <div class="all-year-groups" id="allYearGroups"></div>
       </section>
     </main>
 

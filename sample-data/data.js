@@ -3,7 +3,7 @@ window.PLACES = [
     id: "dining-sadaf",
     name: "Sadaf Restaurant",
     category: "Dining",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Sadaf Restaurant, Abha, Saudi Arabia",
     image: "./images/place1.jpg",
@@ -16,7 +16,7 @@ window.PLACES = [
     id: "dining-haneeth-mollah",
     name: "Traditional Haneeth (Mollah)",
     category: "Dining",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Traditional Haneeth Mollah, Abha, Saudi Arabia",
     image: "./images/place2.jpg",
@@ -29,7 +29,7 @@ window.PLACES = [
     id: "dining-ala-bali",
     name: "Ala Bali Restaurant",
     category: "Dining",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Ala Bali Restaurant, Abha, Saudi Arabia",
     image: "./images/place3.jpg",
@@ -42,7 +42,7 @@ window.PLACES = [
     id: "cafe-haiz",
     name: "Haiz Cafe",
     category: "Cafes",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "45–60 minutes",
     mapQuery: "Haiz Cafe, Abha, Saudi Arabia",
     image: "./images/place4.jpg",
@@ -55,7 +55,7 @@ window.PLACES = [
     id: "cafe-neighbor-house",
     name: "The Neighbor House",
     category: "Cafes",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "45–60 minutes",
     mapQuery: "The Neighbor House, Abha, Saudi Arabia",
     image: "./images/place5.jpg",
@@ -68,7 +68,7 @@ window.PLACES = [
     id: "cafe-redhah",
     name: "Redhah Cafe",
     category: "Cafes",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "45–60 minutes",
     mapQuery: "Redhah Cafe, Abha, Saudi Arabia",
     image: "./images/place6.jpg",
@@ -81,7 +81,7 @@ window.PLACES = [
     id: "cafe-black-by-location",
     name: "Black by Location",
     category: "Cafes",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "45–60 minutes",
     mapQuery: "Black by Location, Abha, Saudi Arabia",
     image: "./images/place7.jpg",
@@ -94,7 +94,7 @@ window.PLACES = [
     id: "heritage-al-nasb",
     name: "Al Nasb Heritage Village",
     category: "Heritage & Markets",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Al Nasb Heritage Village, Abha, Saudi Arabia",
     image: "./images/place8.jpg",
@@ -107,7 +107,7 @@ window.PLACES = [
     id: "heritage-tuesday-market",
     name: "Tuesday Market (Souk Al-Thulatha)",
     category: "Heritage & Markets",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Tuesday Market Souk Al-Thulatha, Abha, Saudi Arabia",
     image: "./images/place9.jpg",
@@ -120,7 +120,7 @@ window.PLACES = [
     id: "heritage-rijal-almaa",
     name: "Rijal Almaa Heritage Village",
     category: "Heritage & Markets",
-    seasons: ["Winter & Spring"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "sep", "oct", "nov"],
     duration: "2–3 hours",
     mapQuery: "Rijal Almaa Heritage Village, Saudi Arabia",
     image: "./images/place10.jpg",
@@ -133,7 +133,7 @@ window.PLACES = [
     id: "heritage-tabab",
     name: "Tabab Village",
     category: "Heritage & Markets",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Tabab Village, Abha, Saudi Arabia",
     image: "./images/place11.jpg",
@@ -146,7 +146,7 @@ window.PLACES = [
     id: "activity-seven-abha",
     name: "Seven Abha",
     category: "Activities",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "2–3 hours",
     mapQuery: "Seven Abha, Saudi Arabia",
     image: "./images/place12.jpg",
@@ -159,7 +159,7 @@ window.PLACES = [
     id: "activity-hiking-trails",
     name: "Mountain Hiking Trails",
     category: "Activities",
-    seasons: ["Summer & Rainy Season"],
+    availableMonths: ["jun", "jul", "aug"],
     duration: "3–4 hours",
     mapQuery: "Mountain hiking trails, Abha, Saudi Arabia",
     image: "./images/place13.jpg",
@@ -172,7 +172,7 @@ window.PLACES = [
     id: "activity-meditation-soudah",
     name: "Meditation at Soudah Peaks",
     category: "Activities",
-    seasons: ["Summer & Rainy Season"],
+    availableMonths: ["jun", "jul", "aug"],
     duration: "1–2 hours",
     mapQuery: "Soudah Peaks, Abha, Saudi Arabia",
     image: "./images/place14.jpg",
@@ -185,7 +185,7 @@ window.PLACES = [
     id: "nature-bani-mazen",
     name: "Bani Mazen Villages",
     category: "Nature",
-    seasons: ["Summer & Rainy Season"],
+    availableMonths: ["feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct"],
     duration: "2–3 hours",
     mapQuery: "Bani Mazen Villages, Aseer, Saudi Arabia",
     image: "./images/place15.jpg",
@@ -198,7 +198,7 @@ window.PLACES = [
     id: "activity-strawberry-farm",
     name: "Strawberry Farm (Soudah)",
     category: "Activities",
-    seasons: ["Summer & Rainy Season"],
+    availableMonths: ["mar", "apr", "jun", "jul", "aug"],
     duration: "1–2 hours",
     mapQuery: "Strawberry Farm Soudah, Abha, Saudi Arabia",
     image: "./images/place16.jpg",
@@ -211,7 +211,7 @@ window.PLACES = [
     id: "heritage-honey-hut",
     name: "Honey Hut",
     category: "Heritage & Markets",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "45–60 minutes",
     mapQuery: "Honey Hut, Abha, Saudi Arabia",
     image: "./images/place17.jpg",
@@ -224,7 +224,7 @@ window.PLACES = [
     id: "nature-art-street",
     name: "Art Street",
     category: "Nature",
-    seasons: ["Jacaranda & Spring"],
+    availableMonths: ["mar", "apr"],
     duration: "1–2 hours",
     mapQuery: "Art Street, Abha, Saudi Arabia",
     image: "./images/place18.jpg",
@@ -237,7 +237,7 @@ window.PLACES = [
     id: "activity-tahlal-museum",
     name: "Tahlal Museum",
     category: "Activities",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Tahlal Museum, Abha, Saudi Arabia",
     image: "./images/place19.jpg",
@@ -250,7 +250,7 @@ window.PLACES = [
     id: "activity-al-qatt-museum",
     name: "Al-Qatt Al-Asiri Museum",
     category: "Activities",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Al-Qatt Al-Asiri Museum, Abha, Saudi Arabia",
     image: "./images/place20.jpg",
@@ -263,7 +263,7 @@ window.PLACES = [
     id: "nature-ezz-overlook",
     name: "Ezz Overlook in Soudah",
     category: "Nature",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Ezz Overlook, Soudah, Saudi Arabia",
     image: "./images/place21.jpg",
@@ -276,7 +276,7 @@ window.PLACES = [
     id: "nature-cloud-overlook",
     name: "Cloud Overlook in Soudah (Al-Sahab)",
     category: "Nature",
-    seasons: ["Summer & Rainy Season"],
+    availableMonths: ["jul", "aug", "sep"],
     duration: "1–2 hours",
     mapQuery: "Cloud Overlook Al-Sahab, Soudah, Saudi Arabia",
     image: "./images/place22.jpg",
@@ -289,7 +289,7 @@ window.PLACES = [
     id: "heritage-al-muftaha",
     name: "Al-Muftaha Village",
     category: "Heritage & Markets",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Al-Muftaha Village, Abha, Saudi Arabia",
     image: "./images/place23.jpg",
@@ -302,7 +302,7 @@ window.PLACES = [
     id: "heritage-bastat-al-qabil",
     name: "Bastat Al-Qabil",
     category: "Heritage & Markets",
-    seasons: ["All Year"],
+    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Bastat Al-Qabil, Abha, Saudi Arabia",
     image: "./images/place24.jpg",
@@ -312,3 +312,111 @@ window.PLACES = [
     priority: 5
   }
 ];
+
+window.MONTHS = [
+  {
+    id: "jan",
+    label: "January",
+    icon: "❄️",
+    description: "Cooler winter weather perfect for exploring heritage sites, historical villages, and scenic walking tours without summer heat.",
+    featuredIds: ["heritage-tabab", "heritage-al-muftaha", "heritage-rijal-almaa"]
+  },
+  {
+    id: "feb",
+    label: "February",
+    icon: "❄️",
+    description: "Focused on heritage, tranquil mountain villages, and peaceful natural scenery.",
+    featuredIds: ["heritage-rijal-almaa", "nature-bani-mazen", "activity-tahlal-museum"]
+  },
+  {
+    id: "mar",
+    label: "March",
+    icon: "🌸",
+    description: "Early spring greenery and vibrant bloom. Strawberry picking offers an interactive seasonal harvesting experience.",
+    featuredIds: ["activity-strawberry-farm", "nature-bani-mazen", "heritage-rijal-almaa"]
+  },
+  {
+    id: "apr",
+    label: "April",
+    icon: "🌸",
+    description: "Spring season with lush greenery, pleasant weather, and blooming Jacaranda trees along Art Street.",
+    featuredIds: ["activity-strawberry-farm", "nature-art-street", "nature-bani-mazen"]
+  },
+  {
+    id: "may",
+    label: "May",
+    icon: "🌿",
+    description: "Late spring transitioning into mountain weather, coinciding with the start of Aseer's local honey harvesting season.",
+    featuredIds: ["nature-bani-mazen", "heritage-rijal-almaa", "heritage-honey-hut"]
+  },
+  {
+    id: "jun",
+    label: "June",
+    icon: "☁️",
+    description: "Kickstarting peak mountain season with cool highlands, crisp air, and early signs of fog and summer rain.",
+    featuredIds: ["activity-meditation-soudah", "activity-hiking-trails", "nature-ezz-overlook"]
+  },
+  {
+    id: "jul",
+    label: "July",
+    icon: "🌧️",
+    description: "Classic Aseer monsoon atmosphere with heavy fog, rain, flowing valleys, and dramatic cloudscapes high above the peaks.",
+    featuredIds: ["nature-cloud-overlook", "nature-ezz-overlook", "activity-hiking-trails"]
+  },
+  {
+    id: "aug",
+    label: "August",
+    icon: "🌫️",
+    description: "Peak natural beauty in Aseer. Lush green mountains, dense misty horizons, and refreshing rain showers.",
+    featuredIds: ["nature-cloud-overlook", "activity-meditation-soudah", "activity-hiking-trails"]
+  },
+  {
+    id: "sep",
+    label: "September",
+    icon: "🌫️",
+    description: "Early autumn breeze, lingering mist, clouds, and serene mountain landscape transitions.",
+    featuredIds: ["nature-cloud-overlook", "nature-bani-mazen", "heritage-rijal-almaa"]
+  },
+  {
+    id: "oct",
+    label: "October",
+    icon: "🍂",
+    description: "Mild, comfortable autumn temperatures ideal for village exploration, nature walks, and cultural discoveries.",
+    featuredIds: ["heritage-rijal-almaa", "nature-bani-mazen", "heritage-honey-hut"]
+  },
+  {
+    id: "nov",
+    label: "November",
+    icon: "🍂",
+    description: "Pleasant autumn weather making historic markets, traditional bazaars, and heritage walks enjoyable.",
+    featuredIds: ["heritage-rijal-almaa", "heritage-tabab", "heritage-bastat-al-qabil"]
+  },
+  {
+    id: "dec",
+    label: "December",
+    icon: "❄️",
+    description: "Crisp winter season highlighting rich heritage, indoor museums, cultural centers, and historical landmarks.",
+    featuredIds: ["heritage-tabab", "heritage-al-muftaha", "activity-tahlal-museum"]
+  }
+];
+
+window.ALL_YEAR_ROUND = {
+  subtitle: "All Year Round | Restaurants & Cafes ideal to add to your itinerary in any season.",
+  groups: [
+    {
+      label: "Restaurants",
+      items: [
+        { label: "Sadaf Restaurant", placeId: "dining-sadaf" },
+        { label: "Traditional Haneeth (Mollah)", placeId: "dining-haneeth-mollah" },
+        { label: "Ala Bali Restaurant", placeId: "dining-ala-bali" }
+      ]
+    },
+    {
+      label: "Cafes",
+      items: [
+        { label: "Near Cafe" },
+        { label: "Butter Bakery (Al-Hezam)" }
+      ]
+    }
+  ]
+};
