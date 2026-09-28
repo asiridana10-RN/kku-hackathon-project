@@ -5,8 +5,8 @@
   const months = Array.isArray(window.MONTHS) ? window.MONTHS : [];
   const allYearRound = window.ALL_YEAR_ROUND && typeof window.ALL_YEAR_ROUND === "object" ? window.ALL_YEAR_ROUND : null;
   const storageKey = "abha-visitor-guide-state";
-  const schemaVersion = 4;
-  const datasetVersion = "abha-24-aseeri-themes-v4";
+  const schemaVersion = 5;
+  const datasetVersion = "abha-24-aseeri-global-categories-v5";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
   const allowedEffects = ["calm", "warm", "spring", "fog", "rain", "cloud", "rain-soft"];
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
@@ -34,6 +34,7 @@
     heroTitle: document.getElementById("heroTitle"),
     heroSubtitle: document.getElementById("heroSubtitle"),
     heroDescription: document.getElementById("heroDescription"),
+    guideToolsDescription: document.getElementById("guideToolsDescription"),
     categoryFilters: document.getElementById("categoryFilters"),
     monthNav: document.getElementById("monthNav"),
     featuredSection: document.getElementById("featuredSection"),
@@ -45,7 +46,6 @@
     allYearGroups: document.getElementById("allYearGroups"),
     placesGrid: document.getElementById("placesGrid"),
     resultsStatus: document.getElementById("resultsStatus"),
-    resetFilters: document.getElementById("resetFilters"),
     planButton: document.getElementById("planButton"),
     surpriseButton: document.getElementById("surpriseButton"),
     itinerary: document.getElementById("itinerary"),
@@ -140,17 +140,25 @@
     }[character]));
   }
 
+  function isCategoryOverride() {
+    return state.category !== "All";
+  }
+
   function getVisiblePlaces() {
-    return places.filter((place) => {
-      const categoryMatches = state.category === "All" || place.category === state.category;
-      return categoryMatches && place.availableMonths.includes(state.monthId);
-    });
+    if (isCategoryOverride()) {
+      return places.filter((place) => place.category === state.category);
+    }
+
+    return places.filter((place) => place.availableMonths.includes(state.monthId));
   }
 
   function describeFilters(count) {
+    if (isCategoryOverride()) {
+      return `Showing all ${count} ${state.category} ${count === 1 ? "place" : "places"} across the year`;
+    }
+
     const month = getMonth(state.monthId);
-    const categoryText = state.category === "All" ? "all categories" : state.category;
-    return `Showing ${count} ${count === 1 ? "place" : "places"} available in ${month.label} · ${categoryText}`;
+    return `Showing ${count} ${count === 1 ? "place" : "places"} available in ${month.label} · all categories`;
   }
 
   function makeFilterButton(label, group, buttonContainer) {
@@ -162,6 +170,9 @@
       const month = getMonth(label);
       button.innerHTML = `<span class="month-icon" aria-hidden="true">${escapeHTML(month.icon)}</span><span class="month-name">${escapeHTML(month.shortLabel)}</span>`;
       button.setAttribute("aria-label", `Show ${month.label} guide`);
+    } else if (label === "All") {
+      button.innerHTML = `<svg aria-hidden="true"><use href="#icon-reset"></use></svg><span>All / month</span>`;
+      button.setAttribute("aria-label", "Show all categories for the selected month");
     } else {
       button.textContent = label;
     }
@@ -245,6 +256,17 @@
       .forEach((place) => elements.featuredGrid.append(createCard(place, true)));
   }
 
+  function renderContextualSections() {
+    const isMonthlyView = !isCategoryOverride();
+    elements.featuredSection.hidden = !isMonthlyView;
+    elements.allYearSection.hidden = !isMonthlyView;
+    elements.guideToolsDescription.textContent = isMonthlyView
+      ? `Build a gentle day from places available in ${getMonth(state.monthId).label}.`
+      : `Build a year-round route from every ${state.category} place in the guide.`;
+
+    if (isMonthlyView) renderAllYearRound();
+  }
+
   function renderAllYearRound() {
     elements.allYearSubtitle.textContent = allYearRound.subtitle;
     elements.allYearGroups.innerHTML = "";
@@ -288,7 +310,7 @@
           <p>Try opening up one of the filters to see more of Abha and Aseer.</p>
           <button class="text-button" type="button" data-clear-empty>Clear filters</button>
         </div>`;
-      elements.placesGrid.querySelector("[data-clear-empty]").addEventListener("click", resetFilters);
+      elements.placesGrid.querySelector("[data-clear-empty]").addEventListener("click", showSelectedMonth);
       return;
     }
     visiblePlaces.forEach((place) => elements.placesGrid.append(createCard(place)));
@@ -309,16 +331,17 @@
   function render() {
     renderMonthPresentation();
     renderFilters();
+    renderContextualSections();
     renderPlaces();
     renderItinerary();
-    renderAllYearRound();
   }
 
-  function resetFilters() {
-    state = { ...defaultState };
+  function showSelectedMonth() {
+    state.category = "All";
+    state.itineraryIds = [];
     saveState();
     render();
-    announce(`${getMonth(state.monthId).label} is ready to explore.`);
+    announce(`${getMonth(state.monthId).label} is ready to explore across all categories.`);
   }
 
   function randomIndex(length) {
@@ -345,7 +368,10 @@
     const heading = card.querySelector("h3");
     window.setTimeout(() => heading.focus({ preventScroll: true }), 280);
     window.setTimeout(() => card.classList.remove("is-surprise"), 3000);
-    announce(`Surprise: ${choice.name}. It is now highlighted in the ${getMonth(state.monthId).label} guide.`);
+    const context = isCategoryOverride()
+      ? `the year-round ${state.category} guide`
+      : `the ${getMonth(state.monthId).label} guide`;
+    announce(`Surprise: ${choice.name}. It is now highlighted in ${context}.`);
   }
 
   function selectItinerary(candidates) {
@@ -379,9 +405,12 @@
     saveState();
     renderItinerary();
     elements.itinerary.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    const routeContext = isCategoryOverride()
+      ? `from all ${state.category} places across the year`
+      : `from places available in ${getMonth(state.monthId).label}`;
     const message = selected.length < 4
-      ? `Your ${selected.length}-stop ${getMonth(state.monthId).label} route is ready from the places available in these filters.`
-      : `Your four-stop ${getMonth(state.monthId).label} day in Abha is ready.`;
+      ? `Your ${selected.length}-stop route is ready ${routeContext}.`
+      : `Your four-stop day in Abha is ready ${routeContext}.`;
     announce(message);
   }
 
@@ -421,7 +450,6 @@
     elements.surpriseButton.disabled = true;
   }
 
-  elements.resetFilters.addEventListener("click", resetFilters);
   elements.surpriseButton.addEventListener("click", surpriseMe);
   elements.planButton.addEventListener("click", buildItinerary);
   elements.rebuildItinerary.addEventListener("click", buildItinerary);
