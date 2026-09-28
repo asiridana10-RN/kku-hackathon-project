@@ -5,16 +5,16 @@
   const months = Array.isArray(window.MONTHS) ? window.MONTHS : [];
   const allYearRound = window.ALL_YEAR_ROUND && typeof window.ALL_YEAR_ROUND === "object" ? window.ALL_YEAR_ROUND : null;
   const storageKey = "abha-visitor-guide-state";
-  const schemaVersion = 5;
-  const datasetVersion = "abha-24-aseeri-global-categories-v5";
+  const schemaVersion = 6;
+  const datasetVersion = "abha-22-clean-seasonal-catalog-v6";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
-  const allowedEffects = ["calm", "warm", "spring", "fog", "rain", "cloud", "rain-soft"];
+  const allowedEffects = ["calm", "warm", "spring", "jacaranda", "fog", "rain", "cloud", "rain-soft"];
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
-  const catalogSize = 24;
+  const catalogSize = 22;
   const categoryTotals = {
     Dining: 3,
-    Cafes: 4,
-    "Heritage & Markets": 7,
+    Cafes: 3,
+    "Heritage & Markets": 6,
     Nature: 4,
     Activities: 6
   };
@@ -200,6 +200,28 @@
     expectedMonthIds.forEach((monthId) => makeFilterButton(monthId, "month", elements.monthNav));
   }
 
+  function getBestTimeLabel(availableMonths) {
+    if (availableMonths.length === expectedMonthIds.length) return "BEST: ALL YEAR";
+
+    const available = new Set(availableMonths);
+    const starts = expectedMonthIds.filter((monthId, index) => (
+      available.has(monthId) && !available.has(expectedMonthIds[(index + expectedMonthIds.length - 1) % expectedMonthIds.length])
+    ));
+    const ranges = starts.map((startMonthId) => {
+      const range = [startMonthId];
+      let index = expectedMonthIds.indexOf(startMonthId);
+      while (available.has(expectedMonthIds[(index + 1) % expectedMonthIds.length])) {
+        index = (index + 1) % expectedMonthIds.length;
+        range.push(expectedMonthIds[index]);
+      }
+      const first = getMonth(range[0]).shortLabel;
+      const last = getMonth(range[range.length - 1]).shortLabel;
+      return range.length === 1 ? first : `${first}–${last}`;
+    });
+
+    return `BEST: ${ranges.join(" · ")}`;
+  }
+
   function createCard(place, featured = false) {
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.mapQuery)}`;
     const unsplashUrl = `https://unsplash.com/s/photos/${encodeURIComponent(`${place.name} Saudi Arabia`)}`;
@@ -213,7 +235,7 @@
       <div class="card-body">
         <div class="card-tags">
           <span class="category-tag">${escapeHTML(place.category)}</span>
-          <span class="season-tag">Available: ${escapeHTML(place.availableMonths.length === expectedMonthIds.length ? "All year" : `${place.availableMonths.length} months`)}</span>
+          <span class="season-tag">${escapeHTML(getBestTimeLabel(place.availableMonths))}</span>
         </div>
         <h3 tabindex="-1">${escapeHTML(place.name)}</h3>
         <p class="card-description">${escapeHTML(place.description)}</p>
@@ -228,7 +250,6 @@
       const fallback = document.createElement("div");
       fallback.className = "card-fallback";
       fallback.innerHTML = `
-        <div class="fallback-mountain" aria-hidden="true"></div>
         <div>
           <p>Local photo unavailable.</p>
           <a href="${unsplashUrl}" target="_blank" rel="noopener noreferrer" aria-label="View a similar image for ${escapeHTML(place.name)} on Unsplash (opens in a new tab)">View a similar image on Unsplash</a>
