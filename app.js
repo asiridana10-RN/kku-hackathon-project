@@ -69,7 +69,7 @@
     const ids = new Set();
     const images = new Set();
     const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/;
-    const expectedImages = Array.from({ length: catalogSize }, (_, index) => `./images/place${index + 1}.jpg`);
+    const localImagePattern = /^\.\/images\/[a-z0-9-]+\.jpg$/;
 
     if (places.length !== catalogSize || months.length !== expectedMonthIds.length || !allYearRound) return false;
     if (!months.every((month, index) => month && month.id === expectedMonthIds[index] &&
@@ -83,7 +83,7 @@
       if (!Array.isArray(place.availableMonths) || !place.availableMonths.length || place.availableMonths.some((monthId) => !expectedMonthIds.includes(monthId))) return false;
       if (![("name"), ("description"), ("duration"), ("mapQuery"), ("image"), ("alt")].every((field) => typeof place[field] === "string" && place[field].trim())) return false;
       if (!timePattern.test(place.planTime) || !Number.isInteger(place.priority) || place.priority < 1) return false;
-      if (!expectedImages.includes(place.image) || images.has(place.image)) return false;
+      if (!localImagePattern.test(place.image) || images.has(place.image)) return false;
       ids.add(place.id);
       images.add(place.image);
       actualCategoryTotals[place.category] += 1;
@@ -98,7 +98,7 @@
       Array.isArray(allYearRound.groups) && allYearRound.groups.length === 2 &&
       allYearRound.groups.every((group) => group && typeof group.label === "string" && Array.isArray(group.items) && group.items.length && group.items.every((item) => !item.placeId || ids.has(item.placeId)));
 
-    return validAllYearGroups && expectedImages.every((image) => images.has(image)) &&
+    return validAllYearGroups && images.size === catalogSize &&
       allowedCategories.every((category) => actualCategoryTotals[category] === categoryTotals[category]);
   }
 

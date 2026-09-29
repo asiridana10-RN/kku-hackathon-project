@@ -16,7 +16,7 @@ A modern web browser. No installation, account, server, or internet connection i
 
 Double-click `index.html` to open the guide in a browser. It runs directly from the folder without a build step or server.
 
-To add real local photos, place files named `place1.jpg` through `place20.jpg` inside `images/`. Until then, each card intentionally shows a clean visible fallback with an optional Unsplash link.
+To add or replace a local photo, save it inside `images/` and update the matching record's `image` path in `sample-data/data.js`. Until a matching photo is available, its card intentionally shows a clean visible fallback with an optional Unsplash link.
 
 ## Try it with the sample data
 
