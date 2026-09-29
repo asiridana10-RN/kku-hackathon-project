@@ -156,19 +156,6 @@ window.PLACES = [
     priority: 2
   },
   {
-    id: "nature-bani-mazen",
-    name: "Bani Mazen Villages",
-    category: "Nature",
-    availableMonths: ["feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct"],
-    duration: "2–3 hours",
-    mapQuery: "Bani Mazen Villages, Aseer, Saudi Arabia",
-    image: "./images/place13.jpg",
-    alt: "Green mountain valleys near Bani Mazen Villages",
-    description: "Scenic mountain valleys, lush greenery, and serene countryside atmosphere",
-    planTime: "11:30",
-    priority: 1
-  },
-  {
     id: "activity-strawberry-farm",
     name: "Strawberry Farm (Soudah)",
     category: "Activities",
@@ -284,7 +271,7 @@ window.MONTHS = [
     heroTitle: "February in Abha",
     heroSubtitle: "Tales from Aseeri Heritage",
     description: "Focused on heritage, tranquil mountain villages, and peaceful natural scenery.",
-    featuredIds: ["heritage-rijal-almaa", "nature-bani-mazen", "activity-al-qatt-museum"]
+    featuredIds: ["heritage-rijal-almaa", "heritage-tabab", "activity-al-qatt-museum"]
   },
   {
     id: "mar",
@@ -296,7 +283,7 @@ window.MONTHS = [
     heroTitle: "March in Abha",
     heroSubtitle: "Nature Begins to Speak",
     description: "Early spring greenery and vibrant bloom. Strawberry picking offers an interactive seasonal harvesting experience.",
-    featuredIds: ["activity-strawberry-farm", "nature-bani-mazen", "heritage-rijal-almaa"]
+    featuredIds: ["activity-strawberry-farm", "nature-art-street", "heritage-rijal-almaa"]
   },
   {
     id: "apr",
@@ -308,7 +295,7 @@ window.MONTHS = [
     heroTitle: "April in Abha",
     heroSubtitle: "Spring Dressed in Aseer's Colors",
     description: "Spring season with lush greenery, pleasant weather, and blooming Jacaranda trees along Art Street.",
-    featuredIds: ["activity-strawberry-farm", "nature-art-street", "nature-bani-mazen"]
+    featuredIds: ["activity-strawberry-farm", "nature-art-street", "heritage-rijal-almaa"]
   },
   {
     id: "may",
@@ -320,7 +307,7 @@ window.MONTHS = [
     heroTitle: "May in Abha",
     heroSubtitle: "Between Mountains and Farms",
     description: "Late spring transitioning into mountain weather, coinciding with the start of Aseer's local honey harvesting season.",
-    featuredIds: ["nature-bani-mazen", "heritage-rijal-almaa", "heritage-honey-hut"]
+    featuredIds: ["heritage-tabab", "heritage-rijal-almaa", "heritage-honey-hut"]
   },
   {
     id: "jun",
@@ -368,7 +355,7 @@ window.MONTHS = [
     heroTitle: "September in Abha",
     heroSubtitle: "Serenity After the Rain",
     description: "Early autumn breeze, lingering mist, clouds, and serene mountain landscape transitions.",
-    featuredIds: ["nature-cloud-overlook", "nature-bani-mazen", "heritage-rijal-almaa"]
+    featuredIds: ["nature-cloud-overlook", "heritage-tabab", "heritage-rijal-almaa"]
   },
   {
     id: "oct",
@@ -380,7 +367,7 @@ window.MONTHS = [
     heroTitle: "October in Abha",
     heroSubtitle: "Autumn with an Aseeri Soul",
     description: "Mild, comfortable autumn temperatures ideal for village exploration, nature walks, and cultural discoveries.",
-    featuredIds: ["heritage-rijal-almaa", "nature-bani-mazen", "heritage-honey-hut"]
+    featuredIds: ["heritage-rijal-almaa", "heritage-tabab", "heritage-honey-hut"]
   },
   {
     id: "nov",

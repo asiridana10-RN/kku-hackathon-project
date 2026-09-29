@@ -2,7 +2,7 @@
 
 ## What it does
 
-A polished, single-page guide to 20 handpicked dining, cafe, heritage, market, nature, and activity locations in Abha and Aseer. The dual-side header lets you choose a month for its Modern Aseer palette, hero story, atmospheric effects, featured experiences, and matching places—or choose a category to see every matching place across the full year. Open a location in Google Maps, generate an easy four-stop day, or use **Surprise me** to discover a random place.
+A polished, single-page guide to 19 handpicked dining, cafe, heritage, market, nature, and activity locations in Abha and Aseer. The dual-side header lets you choose a month for its Modern Aseer palette, hero story, atmospheric effects, featured experiences, and matching places—or choose a category to see every matching place across the full year. Open a location in Google Maps, generate an easy four-stop day, or use **Surprise me** to discover a random place.
 
 ## Who it is for
 
@@ -26,7 +26,7 @@ The browser may save only your selected filters and generated itinerary IDs in l
 
 ### Features
 
-- Twenty English-language places across Abha and Aseer
+- Nineteen English-language places across Abha and Aseer
 - Exact categories: All, Dining, Cafes, Heritage & Markets, Nature, and Activities
 - A dual-side header: global category filters on the left and twelve touch-friendly month tabs on the right
 - Five global category filters that show every matching record across the year; **All / month** restores the selected month's available places

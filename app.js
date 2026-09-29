@@ -6,16 +6,16 @@
   const allYearRound = window.ALL_YEAR_ROUND && typeof window.ALL_YEAR_ROUND === "object" ? window.ALL_YEAR_ROUND : null;
   const storageKey = "abha-visitor-guide-state";
   const schemaVersion = 6;
-  const datasetVersion = "abha-20-clean-seasonal-catalog-v7";
+  const datasetVersion = "abha-19-clean-seasonal-catalog-v8";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
   const allowedEffects = ["calm", "warm", "spring", "jacaranda", "fog", "rain", "cloud", "rain-soft"];
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
-  const catalogSize = 20;
+  const catalogSize = 19;
   const categoryTotals = {
     Dining: 3,
     Cafes: 3,
     "Heritage & Markets": 6,
-    Nature: 3,
+    Nature: 2,
     Activities: 5
   };
   const expectedMonthIds = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
