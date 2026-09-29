@@ -65,38 +65,66 @@
   transform: translate3d(34px, -72px, 0);
 }
 
-/* Petals begin in staggered document regions so the full guide feels seasonally alive. */
+/* Petals are repeated across the document, so spring remains visible while visitors scroll. */
 .seasonal-petals {
   inset: 0;
 }
 .seasonal-petals i {
   position: absolute;
   display: block;
-  width: 13px;
-  height: 20px;
+  width: 14px;
+  height: 21px;
   border-radius: 75% 25% 75% 25%;
   background: #8f4d9e;
-  box-shadow: inset -3px -3px 0 rgba(75, 35, 101, .22);
+  box-shadow: inset -3px -3px 0 rgba(75, 35, 101, .24), 0 2px 5px rgba(75, 35, 101, .12);
   opacity: 0;
-  transform: translate3d(0, -28px, 0) rotate(12deg);
+  transform: translate3d(0, -32px, 0) rotate(12deg);
+  will-change: transform, opacity;
 }
-.seasonal-petals i:nth-child(1) { top: 3%; left: 12%; --drift: 42px; --turn: 252deg; animation-delay: -6s; }
-.seasonal-petals i:nth-child(2) { top: 15%; left: 74%; width: 11px; height: 17px; background: #b06cbd; --drift: -35px; --turn: 318deg; animation-delay: -13s; }
-.seasonal-petals i:nth-child(3) { top: 28%; left: 34%; width: 15px; height: 21px; background: #734487; --drift: 28px; --turn: 235deg; animation-delay: -3s; }
-.seasonal-petals i:nth-child(4) { top: 40%; left: 88%; width: 10px; height: 16px; background: #b06cbd; --drift: -46px; --turn: 292deg; animation-delay: -17s; }
-.seasonal-petals i:nth-child(5) { top: 53%; left: 17%; width: 14px; height: 22px; --drift: 39px; --turn: 340deg; animation-delay: -9s; }
-.seasonal-petals i:nth-child(6) { top: 65%; left: 59%; width: 10px; height: 17px; background: #734487; --drift: -28px; --turn: 218deg; animation-delay: -15s; }
-.seasonal-petals i:nth-child(7) { top: 78%; left: 80%; width: 14px; height: 20px; background: #b06cbd; --drift: 34px; --turn: 303deg; animation-delay: -5s; }
-.seasonal-petals i:nth-child(8) { top: 91%; left: 39%; width: 11px; height: 18px; background: #734487; --drift: -38px; --turn: 270deg; animation-delay: -19s; }
+.seasonal-petals i:nth-child(1) { top: 2%; left: 5%; --drift: 46px; --turn: 252deg; --fall-delay: -6s; }
+.seasonal-petals i:nth-child(2) { top: 7%; left: 22%; width: 11px; height: 17px; background: #b06cbd; --drift: -38px; --turn: 318deg; --fall-delay: -13s; }
+.seasonal-petals i:nth-child(3) { top: 11%; left: 41%; width: 16px; height: 22px; background: #734487; --drift: 32px; --turn: 235deg; --fall-delay: -3s; }
+.seasonal-petals i:nth-child(4) { top: 15%; left: 62%; width: 10px; height: 16px; background: #b06cbd; --drift: -48px; --turn: 292deg; --fall-delay: -17s; }
+.seasonal-petals i:nth-child(5) { top: 20%; left: 85%; width: 15px; height: 22px; --drift: 41px; --turn: 340deg; --fall-delay: -9s; }
+.seasonal-petals i:nth-child(6) { top: 27%; left: 12%; width: 11px; height: 18px; background: #734487; --drift: -31px; --turn: 218deg; --fall-delay: -15s; }
+.seasonal-petals i:nth-child(7) { top: 34%; left: 34%; width: 15px; height: 21px; background: #b06cbd; --drift: 37px; --turn: 303deg; --fall-delay: -5s; }
+.seasonal-petals i:nth-child(8) { top: 40%; left: 54%; width: 12px; height: 19px; background: #734487; --drift: -42px; --turn: 270deg; --fall-delay: -19s; }
+.seasonal-petals i:nth-child(9) { top: 46%; left: 77%; width: 16px; height: 23px; --drift: 44px; --turn: 328deg; --fall-delay: -11s; }
+.seasonal-petals i:nth-child(10) { top: 53%; left: 4%; width: 10px; height: 16px; background: #b06cbd; --drift: -35px; --turn: 230deg; --fall-delay: -21s; }
+.seasonal-petals i:nth-child(11) { top: 59%; left: 26%; width: 15px; height: 22px; background: #734487; --drift: 39px; --turn: 298deg; --fall-delay: -8s; }
+.seasonal-petals i:nth-child(12) { top: 65%; left: 49%; width: 11px; height: 18px; background: #b06cbd; --drift: -45px; --turn: 250deg; --fall-delay: -16s; }
+.seasonal-petals i:nth-child(13) { top: 70%; left: 70%; width: 16px; height: 22px; --drift: 36px; --turn: 346deg; --fall-delay: -4s; }
+.seasonal-petals i:nth-child(14) { top: 76%; left: 91%; width: 10px; height: 16px; background: #734487; --drift: -32px; --turn: 220deg; --fall-delay: -20s; }
+.seasonal-petals i:nth-child(15) { top: 82%; left: 16%; width: 14px; height: 21px; background: #b06cbd; --drift: 46px; --turn: 310deg; --fall-delay: -7s; }
+.seasonal-petals i:nth-child(16) { top: 87%; left: 39%; width: 11px; height: 17px; background: #734487; --drift: -40px; --turn: 238deg; --fall-delay: -14s; }
+.seasonal-petals i:nth-child(17) { top: 91%; left: 59%; width: 16px; height: 23px; --drift: 35px; --turn: 332deg; --fall-delay: -2s; }
+.seasonal-petals i:nth-child(18) { top: 95%; left: 80%; width: 10px; height: 16px; background: #b06cbd; --drift: -37px; --turn: 264deg; --fall-delay: -18s; }
+.seasonal-petals i:nth-child(19) { top: 6%; left: 95%; width: 13px; height: 20px; background: #734487; --drift: 31px; --turn: 290deg; --fall-delay: -10s; }
+.seasonal-petals i:nth-child(20) { top: 31%; left: 69%; width: 12px; height: 18px; background: #b06cbd; --drift: -46px; --turn: 222deg; --fall-delay: -22s; }
+.seasonal-petals i:nth-child(21) { top: 50%; left: 91%; width: 15px; height: 21px; background: #734487; --drift: 42px; --turn: 315deg; --fall-delay: -12s; }
+.seasonal-petals i:nth-child(22) { top: 73%; left: 35%; width: 10px; height: 16px; background: #b06cbd; --drift: -34px; --turn: 246deg; --fall-delay: -23s; }
+.seasonal-petals i:nth-child(23) { top: 79%; left: 61%; width: 15px; height: 22px; background: #734487; --drift: 40px; --turn: 322deg; --fall-delay: -1s; }
+.seasonal-petals i:nth-child(24) { top: 97%; left: 26%; width: 11px; height: 18px; background: #b06cbd; --drift: -43px; --turn: 236deg; --fall-delay: -17s; }
 
 .site-shell[data-effect="clouds"] .seasonal-cloud { opacity: .32; }
 .site-shell[data-effect="clouds"] .seasonal-cloud-one { animation: seasonal-cloud-drift-left 34s ease-in-out infinite alternate; }
 .site-shell[data-effect="clouds"] .seasonal-cloud-two { animation: seasonal-cloud-drift-right 42s ease-in-out infinite alternate; }
 .site-shell[data-effect="clouds"] .seasonal-cloud-three { animation: seasonal-cloud-drift-left 38s ease-in-out infinite alternate-reverse; }
 
+.site-shell[data-effect="pink-petals"] .seasonal-petals i,
 .site-shell[data-effect="petals"] .seasonal-petals i {
-  opacity: .68;
-  animation: seasonal-petal-fall 15s cubic-bezier(.3, .65, .55, 1) infinite;
+  animation: seasonal-petal-fall 13.5s cubic-bezier(.3, .65, .55, 1) infinite;
+  animation-delay: var(--fall-delay);
+}
+.site-shell[data-effect="pink-petals"] .seasonal-petals i {
+  opacity: .92;
+  background: #e56f9b;
+  box-shadow: inset -3px -3px 0 rgba(165, 47, 91, .28), 0 2px 6px rgba(165, 47, 91, .18);
+}
+.site-shell[data-effect="pink-petals"] .seasonal-petals i:nth-child(3n) { background: #f19cb9; }
+.site-shell[data-effect="pink-petals"] .seasonal-petals i:nth-child(4n) { background: #cf4f82; }
+.site-shell[data-effect="petals"] .seasonal-petals i {
+  opacity: .82;
 }
 
 .site-shell[data-effect="sunny"] .seasonal-sun {
@@ -125,10 +153,10 @@
   to { transform: translate3d(-13vw, -2vh, 0); }
 }
 @keyframes seasonal-petal-fall {
-  0% { transform: translate3d(0, -28px, 0) rotate(12deg); }
+  0% { transform: translate3d(0, -32px, 0) rotate(12deg); }
   28% { transform: translate3d(calc(var(--drift) * -.45), 7vh, 0) rotate(96deg); }
   56% { transform: translate3d(var(--drift), 15vh, 0) rotate(214deg); }
-  100% { transform: translate3d(calc(var(--drift) * -.32), 27vh, 0) rotate(var(--turn)); }
+  100% { transform: translate3d(calc(var(--drift) * -.32), 29vh, 0) rotate(var(--turn)); }
 }
 @keyframes seasonal-sun-glow {
   from { opacity: .72; }

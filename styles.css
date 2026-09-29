@@ -359,11 +359,6 @@ h1 i, h2 i { color: var(--primary); font-weight: 400; }
   .places-grid .place-card:nth-child(3n + 1) { grid-column: span 7; }
   .places-grid .place-card:nth-child(3n + 2) { grid-column: span 5; }
 }
-@media (max-width: 480px) {
-  .topbar { align-items: start; }
-  .topbar-actions { flex: 1 1 auto; flex-wrap: wrap; justify-content: end; }
-  .weather-widget { flex: 1 1 184px; min-width: 0; }
-}
 @media (max-width: 680px) {
   .section-wrap { width: min(100% - 28px, 1160px); }
   .site-shell { overflow: hidden; }
@@ -422,6 +417,35 @@ h1 i, h2 i { color: var(--primary); font-weight: 400; }
   .card-media { aspect-ratio: 1.46 / 1; }
   .footer { display: grid; grid-template-columns: 1fr auto; gap: 19px; }
   .footer .text-button { grid-column: 1 / -1; justify-self: start; }
+}
+@media (max-width: 480px) {
+  body { min-width: 320px; }
+  .topbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; }
+  .topbar-actions { display: contents; }
+  .weather-widget { grid-column: 1 / -1; grid-row: 2; width: 100%; min-height: 52px; margin-top: 3px; }
+  .nav-link { min-width: 44px; min-height: 44px; justify-content: center; padding: 9px; }
+  .brand { min-width: 0; font-size: 1.08rem; }
+  .hero-content { padding-top: 76px; }
+  .hero-actions { display: grid; grid-template-columns: 1fr; }
+  .hero-actions .button { min-height: 50px; }
+  .navigation-kicker { white-space: normal; }
+  .month-nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .month-chip { min-height: 50px; font-size: .7rem; }
+  .filter-chip { min-height: 46px; font-size: .71rem; }
+  .planner-copy { display: block; }
+  .planner-icon { margin-bottom: 14px; }
+  .planner h3 { font-size: 1.62rem; }
+  .itinerary-heading { gap: 12px; }
+  .itinerary h3 { font-size: 1.62rem; overflow-wrap: anywhere; }
+  .itinerary-stop { grid-template-columns: 78px minmax(0, 1fr); }
+  .itinerary-stop img { min-height: 100%; }
+  .itinerary-stop-copy { min-width: 0; padding: 14px 11px; }
+  .itinerary-stop strong, .itinerary-stop p { overflow-wrap: anywhere; }
+  .map-link { min-height: 44px; padding-block: 9px; }
+  .card-footer { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .card-footer .map-link { margin-top: -4px; }
+  .footer { grid-template-columns: 1fr; }
+  .footer-pattern { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

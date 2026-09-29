@@ -308,7 +308,7 @@ window.MONTHS = [
     shortLabel: "MAR",
     icon: "🌸",
     theme: "march",
-    effect: "clouds",
+    effect: "pink-petals",
     heroTitle: "March in Abha",
     heroSubtitle: "Nature Begins to Speak",
     description: "Early spring greenery and vibrant bloom. Strawberry picking offers an interactive seasonal harvesting experience.",
