@@ -111,6 +111,10 @@
 .site-shell[data-effect="clouds"] .seasonal-cloud-two { animation: seasonal-cloud-drift-right 42s ease-in-out infinite alternate; }
 .site-shell[data-effect="clouds"] .seasonal-cloud-three { animation: seasonal-cloud-drift-left 38s ease-in-out infinite alternate-reverse; }
 
+.site-shell[data-effect="pink-petals"] .seasonal-petals,
+.site-shell[data-effect="petals"] .seasonal-petals {
+  opacity: 1;
+}
 .site-shell[data-effect="pink-petals"] .seasonal-petals i,
 .site-shell[data-effect="petals"] .seasonal-petals i {
   animation: seasonal-petal-fall 13.5s cubic-bezier(.3, .65, .55, 1) infinite;
