@@ -58,6 +58,7 @@ window.PLACES = [
     availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "45–60 minutes",
     mapQuery: "Butter Bakery Al-Hezam, Abha, Saudi Arabia",
+    mapUrl: "https://maps.app.goo.gl/LR9GN2Cioi3fHj1E6?g_st=ic",
     image: "./images/butterbakery.jpg",
     alt: "Fresh pastries and coffee at Butter Bakery in Al-Hezam",
     description: "A bright bakery and coffee stop known for fresh bakes, comforting drinks, and a polished neighborhood feel",

@@ -1,0 +1,162 @@
+/* Decorative, document-height weather layer. All content remains above this layer in styles.css. */
+.seasonal-atmosphere {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.seasonal-atmosphere > * {
+  position: absolute;
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 620ms ease;
+}
+
+/* Warmth is a subtle wash over the complete document, not a foreground overlay. */
+.seasonal-sun {
+  inset: 0;
+  background:
+    radial-gradient(44% 22% at 78% 8%, rgba(255, 208, 101, .19), transparent 72%),
+    radial-gradient(38% 20% at 19% 48%, rgba(255, 226, 145, .12), transparent 75%),
+    radial-gradient(46% 24% at 76% 88%, rgba(255, 210, 112, .13), transparent 76%);
+}
+
+/* Each cloud bank is placed in a different vertical region of the guide. */
+.seasonal-cloud {
+  width: clamp(220px, 27vw, 410px);
+  height: clamp(72px, 8vw, 118px);
+  background:
+    radial-gradient(ellipse at 20% 70%, rgba(255, 253, 247, .78) 0 22%, transparent 23%),
+    radial-gradient(ellipse at 42% 48%, rgba(255, 253, 247, .85) 0 28%, transparent 29%),
+    radial-gradient(ellipse at 67% 60%, rgba(255, 253, 247, .72) 0 24%, transparent 25%),
+    radial-gradient(ellipse at 83% 76%, rgba(255, 253, 247, .61) 0 16%, transparent 17%);
+}
+.seasonal-cloud-one { top: 7%; left: -8%; }
+.seasonal-cloud-two { top: 43%; right: -10%; }
+.seasonal-cloud-three { top: 77%; left: 18%; }
+
+/* A repeated rain field spans the full atmospheric container from hero to footer. */
+.seasonal-rain {
+  inset: -14% -8%;
+  background-image: repeating-linear-gradient(
+    112deg,
+    transparent 0 28px,
+    rgba(38, 96, 122, .20) 29px 30px,
+    transparent 31px 58px
+  );
+  background-size: 72px 116px;
+  transform: translate3d(0, -58px, 0);
+}
+.seasonal-rain::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background-image: repeating-linear-gradient(
+    112deg,
+    transparent 0 39px,
+    rgba(103, 151, 169, .16) 40px 41px,
+    transparent 42px 78px
+  );
+  background-size: 94px 144px;
+  transform: translate3d(34px, -72px, 0);
+}
+
+/* Petals begin in staggered document regions so the full guide feels seasonally alive. */
+.seasonal-petals {
+  inset: 0;
+}
+.seasonal-petals i {
+  position: absolute;
+  display: block;
+  width: 13px;
+  height: 20px;
+  border-radius: 75% 25% 75% 25%;
+  background: #8f4d9e;
+  box-shadow: inset -3px -3px 0 rgba(75, 35, 101, .22);
+  opacity: 0;
+  transform: translate3d(0, -28px, 0) rotate(12deg);
+}
+.seasonal-petals i:nth-child(1) { top: 3%; left: 12%; --drift: 42px; --turn: 252deg; animation-delay: -6s; }
+.seasonal-petals i:nth-child(2) { top: 15%; left: 74%; width: 11px; height: 17px; background: #b06cbd; --drift: -35px; --turn: 318deg; animation-delay: -13s; }
+.seasonal-petals i:nth-child(3) { top: 28%; left: 34%; width: 15px; height: 21px; background: #734487; --drift: 28px; --turn: 235deg; animation-delay: -3s; }
+.seasonal-petals i:nth-child(4) { top: 40%; left: 88%; width: 10px; height: 16px; background: #b06cbd; --drift: -46px; --turn: 292deg; animation-delay: -17s; }
+.seasonal-petals i:nth-child(5) { top: 53%; left: 17%; width: 14px; height: 22px; --drift: 39px; --turn: 340deg; animation-delay: -9s; }
+.seasonal-petals i:nth-child(6) { top: 65%; left: 59%; width: 10px; height: 17px; background: #734487; --drift: -28px; --turn: 218deg; animation-delay: -15s; }
+.seasonal-petals i:nth-child(7) { top: 78%; left: 80%; width: 14px; height: 20px; background: #b06cbd; --drift: 34px; --turn: 303deg; animation-delay: -5s; }
+.seasonal-petals i:nth-child(8) { top: 91%; left: 39%; width: 11px; height: 18px; background: #734487; --drift: -38px; --turn: 270deg; animation-delay: -19s; }
+
+.site-shell[data-effect="clouds"] .seasonal-cloud { opacity: .32; }
+.site-shell[data-effect="clouds"] .seasonal-cloud-one { animation: seasonal-cloud-drift-left 34s ease-in-out infinite alternate; }
+.site-shell[data-effect="clouds"] .seasonal-cloud-two { animation: seasonal-cloud-drift-right 42s ease-in-out infinite alternate; }
+.site-shell[data-effect="clouds"] .seasonal-cloud-three { animation: seasonal-cloud-drift-left 38s ease-in-out infinite alternate-reverse; }
+
+.site-shell[data-effect="petals"] .seasonal-petals i {
+  opacity: .68;
+  animation: seasonal-petal-fall 15s cubic-bezier(.3, .65, .55, 1) infinite;
+}
+
+.site-shell[data-effect="sunny"] .seasonal-sun {
+  opacity: 1;
+  animation: seasonal-sun-glow 7s ease-in-out infinite alternate;
+}
+
+.site-shell[data-effect="rain"] .seasonal-rain {
+  opacity: .48;
+  animation: seasonal-rainfall 1.3s linear infinite;
+}
+.site-shell[data-effect="rain"] .seasonal-rain::after {
+  animation: seasonal-rainfall-secondary 1.8s linear infinite;
+}
+.site-shell[data-effect="rain"] .seasonal-cloud { opacity: .18; }
+.site-shell[data-effect="rain"] .seasonal-cloud-one { animation: seasonal-cloud-drift-left 45s ease-in-out infinite alternate; }
+.site-shell[data-effect="rain"] .seasonal-cloud-two { animation: seasonal-cloud-drift-right 52s ease-in-out infinite alternate; }
+.site-shell[data-effect="rain"] .seasonal-cloud-three { animation: seasonal-cloud-drift-left 48s ease-in-out infinite alternate-reverse; }
+
+@keyframes seasonal-cloud-drift-left {
+  from { transform: translate3d(-3vw, 0, 0); }
+  to { transform: translate3d(14vw, 2vh, 0); }
+}
+@keyframes seasonal-cloud-drift-right {
+  from { transform: translate3d(4vw, 0, 0); }
+  to { transform: translate3d(-13vw, -2vh, 0); }
+}
+@keyframes seasonal-petal-fall {
+  0% { transform: translate3d(0, -28px, 0) rotate(12deg); }
+  28% { transform: translate3d(calc(var(--drift) * -.45), 7vh, 0) rotate(96deg); }
+  56% { transform: translate3d(var(--drift), 15vh, 0) rotate(214deg); }
+  100% { transform: translate3d(calc(var(--drift) * -.32), 27vh, 0) rotate(var(--turn)); }
+}
+@keyframes seasonal-sun-glow {
+  from { opacity: .72; }
+  to { opacity: 1; }
+}
+@keyframes seasonal-rainfall {
+  from { transform: translate3d(0, -58px, 0); }
+  to { transform: translate3d(-22px, 58px, 0); }
+}
+@keyframes seasonal-rainfall-secondary {
+  from { transform: translate3d(34px, -72px, 0); }
+  to { transform: translate3d(8px, 72px, 0); }
+}
+
+@media (max-width: 680px) {
+  .seasonal-cloud { width: 230px; height: 82px; }
+  .seasonal-cloud-one { left: -28%; }
+  .seasonal-cloud-two { right: -35%; }
+  .seasonal-cloud-three { left: -8%; }
+  .seasonal-rain { opacity: 0; }
+  .site-shell[data-effect="rain"] .seasonal-rain { opacity: .34; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seasonal-atmosphere,
+  .seasonal-atmosphere *,
+  .seasonal-atmosphere *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

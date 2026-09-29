@@ -7,7 +7,7 @@
   const curatedItineraries = Array.isArray(window.CURATED_ITINERARIES) ? window.CURATED_ITINERARIES : [];
   const storageKey = "abha-visitor-guide-state";
   const schemaVersion = 7;
-  const datasetVersion = "abha-19-curated-itineraries-v10";
+  const datasetVersion = "abha-19-curated-itineraries-v11";
   const weatherEndpoint = "https://api.open-meteo.com/v1/forecast?latitude=18.2164&longitude=42.5053&current=temperature_2m,relative_humidity_2m,weather_code&temperature_unit=celsius&timezone=auto";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
   const allowedEffects = ["clouds", "petals", "sunny", "rain"];
@@ -72,6 +72,22 @@
     return months.find((month) => month.id === monthId);
   }
 
+  function isValidGoogleMapsUrl(value) {
+    if (typeof value !== "string" || !value.trim()) return false;
+    try {
+      const url = new URL(value);
+      return url.protocol === "https:" && ["maps.app.goo.gl", "www.google.com", "google.com"].includes(url.hostname);
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function getMapUrl(place) {
+    return place.mapUrl
+      ? new URL(place.mapUrl).href
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.mapQuery)}`;
+  }
+
   function isValidData() {
     const allowedCategories = categories.filter((category) => category !== "All");
     const actualCategoryTotals = Object.fromEntries(allowedCategories.map((category) => [category, 0]));
@@ -91,6 +107,7 @@
       if (!allowedCategories.includes(place.category)) return false;
       if (!Array.isArray(place.availableMonths) || !place.availableMonths.length || place.availableMonths.some((monthId) => !expectedMonthIds.includes(monthId))) return false;
       if (![("name"), ("description"), ("duration"), ("mapQuery"), ("image"), ("alt")].every((field) => typeof place[field] === "string" && place[field].trim())) return false;
+      if (place.mapUrl !== undefined && !isValidGoogleMapsUrl(place.mapUrl)) return false;
       if (!timePattern.test(place.planTime) || !Number.isInteger(place.priority) || place.priority < 1) return false;
       if (!localImagePattern.test(place.image) || images.has(place.image)) return false;
       ids.add(place.id);
@@ -235,7 +252,7 @@
   }
 
   function createCard(place, featured = false) {
-    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.mapQuery)}`;
+    const mapUrl = getMapUrl(place);
     const unsplashUrl = `https://unsplash.com/s/photos/${encodeURIComponent(`${place.name} Saudi Arabia`)}`;
     const article = document.createElement("article");
     article.className = `place-card${featured ? " featured-card" : ""}`;
@@ -358,7 +375,7 @@
 
     elements.itineraryTitle.textContent = `Day ${itinerary.day}: ${itinerary.title}`;
     itineraryPlaces.forEach((place) => {
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.mapQuery)}`;
+      const mapUrl = getMapUrl(place);
       const item = document.createElement("li");
       item.className = "itinerary-stop";
       item.innerHTML = `
