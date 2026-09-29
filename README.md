@@ -10,7 +10,7 @@ Curious visitors who want a simple, visual starting point for exploring Abha's h
 
 ## Needs
 
-A modern web browser. No installation, account, server, or internet connection is needed to browse the guide. Internet is only used after a visitor deliberately opens a Google Maps link or an image fallback's Unsplash link.
+A modern web browser. No installation, account, or server is needed. The guide remains usable offline; when connected, its optional Abha header widget requests current conditions from Open-Meteo without an account or API key. Internet is also used after a visitor deliberately opens a Google Maps link or an image fallback's Unsplash link.
 
 ## How to run it
 
@@ -36,7 +36,7 @@ The browser may save only your selected filters and active curated day in localS
 - Google Maps search buttons for every catalog place
 - Five fixed curated day itineraries with local-photo stops; **Make another route** advances through Days 1–5 and loops back to Day 1, while **Surprise me** uses the current month or full-year category result set
 - Keyboard focus styles, responsive cards, and reduced-motion support
-- Locally generated Aseer-inspired design; no remote fonts, scripts, image embeds, or APIs
+- Locally generated Aseer-inspired design with no remote fonts, scripts, or image embeds; optional live weather uses Open-Meteo's public keyless API
 
 Built with Claude Code during the KKU Claude Code hackathon
 

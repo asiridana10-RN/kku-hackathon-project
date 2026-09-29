@@ -7,7 +7,8 @@
   const curatedItineraries = Array.isArray(window.CURATED_ITINERARIES) ? window.CURATED_ITINERARIES : [];
   const storageKey = "abha-visitor-guide-state";
   const schemaVersion = 7;
-  const datasetVersion = "abha-19-curated-itineraries-v9";
+  const datasetVersion = "abha-19-curated-itineraries-v10";
+  const weatherEndpoint = "https://api.open-meteo.com/v1/forecast?latitude=18.2164&longitude=42.5053&current=temperature_2m,relative_humidity_2m,weather_code&temperature_unit=celsius&timezone=auto";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
   const allowedEffects = ["clouds", "petals", "sunny", "rain"];
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
@@ -56,7 +57,12 @@
     clearItinerary: document.getElementById("clearItinerary"),
     rebuildItinerary: document.getElementById("rebuildItinerary"),
     loadExample: document.getElementById("loadExample"),
-    toast: document.getElementById("toast")
+    toast: document.getElementById("toast"),
+    weatherWidget: document.getElementById("weatherWidget"),
+    weatherIcon: document.getElementById("weatherIcon"),
+    weatherTemperature: document.getElementById("weatherTemperature"),
+    weatherCondition: document.getElementById("weatherCondition"),
+    weatherHumidity: document.getElementById("weatherHumidity")
   };
 
   let state = readState();
@@ -449,6 +455,63 @@
     announce("Day 1 of 5 and the current month guide are loaded.");
   }
 
+  function getWeatherDetails(weatherCode) {
+    if (weatherCode === 0) return { label: "Clear skies", icon: "clear" };
+    if ([1, 2].includes(weatherCode)) return { label: "Partly cloudy", icon: "cloud" };
+    if (weatherCode === 3) return { label: "Overcast", icon: "cloud" };
+    if ([45, 48].includes(weatherCode)) return { label: "Foggy", icon: "fog" };
+    if ([51, 53, 55, 56, 57].includes(weatherCode)) return { label: "Drizzle", icon: "rain" };
+    if ([61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)) return { label: "Rain showers", icon: "rain" };
+    if ([71, 73, 75, 77, 85, 86].includes(weatherCode)) return { label: "Snow", icon: "cloud" };
+    if ([95, 96, 99].includes(weatherCode)) return { label: "Thunderstorms", icon: "storm" };
+    return { label: "Current conditions", icon: "cloud" };
+  }
+
+  function renderWeatherUnavailable() {
+    elements.weatherWidget.dataset.state = "unavailable";
+    elements.weatherIcon.setAttribute("href", "#weather-cloud");
+    elements.weatherTemperature.textContent = "Unavailable";
+    elements.weatherCondition.textContent = "Weather";
+    elements.weatherHumidity.textContent = "Try again online";
+    elements.weatherWidget.setAttribute("aria-label", "Abha weather unavailable");
+  }
+
+  function renderWeather(current) {
+    const temperature = Number(current.temperature_2m);
+    const humidity = Number(current.relative_humidity_2m);
+    const weatherCode = Number(current.weather_code);
+    if (![temperature, humidity, weatherCode].every(Number.isFinite)) {
+      renderWeatherUnavailable();
+      return;
+    }
+
+    const weather = getWeatherDetails(weatherCode);
+    const roundedTemperature = Math.round(temperature);
+    const roundedHumidity = Math.round(humidity);
+    elements.weatherWidget.dataset.state = "ready";
+    elements.weatherIcon.setAttribute("href", `#weather-${weather.icon}`);
+    elements.weatherTemperature.textContent = `${roundedTemperature}°C`;
+    elements.weatherCondition.textContent = weather.label;
+    elements.weatherHumidity.textContent = `Humidity ${roundedHumidity}%`;
+    elements.weatherWidget.setAttribute("aria-label", `Abha now: ${roundedTemperature} degrees Celsius, ${weather.label}, humidity ${roundedHumidity} percent`);
+  }
+
+  async function loadWeather() {
+    if (!elements.weatherWidget || typeof window.fetch !== "function") return;
+    const controller = typeof AbortController === "function" ? new AbortController() : null;
+    const timeout = controller ? window.setTimeout(() => controller.abort(), 7000) : null;
+    try {
+      const response = await fetch(weatherEndpoint, controller ? { signal: controller.signal } : {});
+      if (!response.ok) throw new Error("Weather request failed");
+      const data = await response.json();
+      renderWeather(data && data.current);
+    } catch (error) {
+      renderWeatherUnavailable();
+    } finally {
+      if (timeout !== null) window.clearTimeout(timeout);
+    }
+  }
+
   function announce(message) {
     elements.toast.textContent = message;
     elements.toast.classList.add("is-visible");
@@ -479,4 +542,5 @@
 
   if (isValidData()) render();
   else showStartupError();
+  loadWeather();
 })();

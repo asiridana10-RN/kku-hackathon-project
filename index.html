@@ -31,6 +31,24 @@
       <path d="M20 11a8 8 0 1 0 1.2 4.2"></path>
       <path d="M20 4v7h-7"></path>
     </symbol>
+    <symbol id="weather-clear" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+    </symbol>
+    <symbol id="weather-cloud" viewBox="0 0 24 24">
+      <path d="M6.5 18h10.7a3.8 3.8 0 0 0 .3-7.6A5.8 5.8 0 0 0 6.7 9.1 4.5 4.5 0 0 0 6.5 18Z"></path>
+    </symbol>
+    <symbol id="weather-fog" viewBox="0 0 24 24">
+      <path d="M4 9h16M6 13h12M4 17h16"></path>
+    </symbol>
+    <symbol id="weather-rain" viewBox="0 0 24 24">
+      <path d="M6.5 14h10.7a3.8 3.8 0 0 0 .3-7.6A5.8 5.8 0 0 0 6.7 5.1 4.5 4.5 0 0 0 6.5 14Z"></path>
+      <path d="m8 17-1 2m5-2-1 2m5-2-1 2"></path>
+    </symbol>
+    <symbol id="weather-storm" viewBox="0 0 24 24">
+      <path d="M6.5 14h10.7a3.8 3.8 0 0 0 .3-7.6A5.8 5.8 0 0 0 6.7 5.1 4.5 4.5 0 0 0 6.5 14Z"></path>
+      <path d="m13 15-3 5h3l-1 3 4-6h-3Z"></path>
+    </symbol>
     <defs>
       <pattern id="qatt-band-tile" width="120" height="56" patternUnits="userSpaceOnUse">
         <rect width="120" height="56" fill="#F5EBE1"></rect>
@@ -80,7 +98,18 @@
           <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
           <span>Abha <em>Visitor Guide</em></span>
         </a>
-        <a class="nav-link" href="#places">Explore the guide <svg aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+        <div class="topbar-actions">
+          <div class="weather-widget" id="weatherWidget" role="status" aria-live="polite" aria-atomic="true" aria-label="Abha weather loading">
+            <svg class="weather-icon" aria-hidden="true"><use id="weatherIcon" href="#weather-cloud"></use></svg>
+            <div class="weather-copy">
+              <span class="weather-location">Abha now</span>
+              <strong id="weatherTemperature">Loading</strong>
+              <span id="weatherCondition">Weather</span>
+              <span id="weatherHumidity">Humidity —</span>
+            </div>
+          </div>
+          <a class="nav-link" href="#places">Explore the guide <svg aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
+        </div>
       </nav>
 
       <div class="hero-content">
