@@ -4,9 +4,10 @@
   const places = Array.isArray(window.PLACES) ? window.PLACES : [];
   const months = Array.isArray(window.MONTHS) ? window.MONTHS : [];
   const allYearRound = window.ALL_YEAR_ROUND && typeof window.ALL_YEAR_ROUND === "object" ? window.ALL_YEAR_ROUND : null;
+  const curatedItineraries = Array.isArray(window.CURATED_ITINERARIES) ? window.CURATED_ITINERARIES : [];
   const storageKey = "abha-visitor-guide-state";
-  const schemaVersion = 6;
-  const datasetVersion = "abha-19-clean-seasonal-catalog-v8";
+  const schemaVersion = 7;
+  const datasetVersion = "abha-19-curated-itineraries-v9";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
   const allowedEffects = ["calm", "warm", "spring", "jacaranda", "fog", "rain", "cloud", "rain-soft"];
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
@@ -25,7 +26,8 @@
     datasetVersion,
     category: "All",
     monthId: defaultMonthId,
-    itineraryIds: []
+    itineraryDayIndex: 0,
+    itineraryVisible: false
   };
 
   const elements = {
@@ -49,6 +51,7 @@
     planButton: document.getElementById("planButton"),
     surpriseButton: document.getElementById("surpriseButton"),
     itinerary: document.getElementById("itinerary"),
+    itineraryTitle: document.getElementById("itineraryTitle"),
     itineraryList: document.getElementById("itineraryList"),
     clearItinerary: document.getElementById("clearItinerary"),
     rebuildItinerary: document.getElementById("rebuildItinerary"),
@@ -71,7 +74,7 @@
     const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/;
     const localImagePattern = /^\.\/images\/[a-z0-9-]+\.jpg$/;
 
-    if (places.length !== catalogSize || months.length !== expectedMonthIds.length || !allYearRound) return false;
+    if (places.length !== catalogSize || months.length !== expectedMonthIds.length || !allYearRound || curatedItineraries.length !== 5) return false;
     if (!months.every((month, index) => month && month.id === expectedMonthIds[index] &&
       ["label", "shortLabel", "icon", "theme", "effect", "heroTitle", "heroSubtitle", "description"].every((field) => typeof month[field] === "string" && month[field].trim()) &&
       month.shortLabel.length <= 3 && allowedThemeKeys.includes(month.theme) && allowedEffects.includes(month.effect) &&
@@ -97,8 +100,12 @@
     const validAllYearGroups = typeof allYearRound.subtitle === "string" && allYearRound.subtitle.trim() &&
       Array.isArray(allYearRound.groups) && allYearRound.groups.length === 2 &&
       allYearRound.groups.every((group) => group && typeof group.label === "string" && Array.isArray(group.items) && group.items.length && group.items.every((item) => !item.placeId || ids.has(item.placeId)));
+    const validCuratedItineraries = curatedItineraries.every((itinerary, index) => itinerary &&
+      itinerary.day === index + 1 && typeof itinerary.title === "string" && itinerary.title.trim() &&
+      Array.isArray(itinerary.placeIds) && itinerary.placeIds.length === 4 && new Set(itinerary.placeIds).size === 4 &&
+      itinerary.placeIds.every((id) => ids.has(id)));
 
-    return validAllYearGroups && images.size === catalogSize &&
+    return validAllYearGroups && validCuratedItineraries && images.size === catalogSize &&
       allowedCategories.every((category) => actualCategoryTotals[category] === categoryTotals[category]);
   }
 
@@ -106,15 +113,14 @@
     try {
       const stored = JSON.parse(localStorage.getItem(storageKey));
       if (!stored || stored.schemaVersion !== schemaVersion || stored.datasetVersion !== datasetVersion) return { ...defaultState };
-      const validIds = new Set(places.map((place) => place.id));
-      const itineraryIds = Array.isArray(stored.itineraryIds)
-        ? [...new Set(stored.itineraryIds.filter((id) => validIds.has(id)))].slice(0, 4)
-        : [];
       return {
         ...defaultState,
         category: categories.includes(stored.category) ? stored.category : defaultState.category,
         monthId: expectedMonthIds.includes(stored.monthId) ? stored.monthId : defaultState.monthId,
-        itineraryIds
+        itineraryDayIndex: Number.isInteger(stored.itineraryDayIndex) && stored.itineraryDayIndex >= 0 && stored.itineraryDayIndex < curatedItineraries.length
+          ? stored.itineraryDayIndex
+          : defaultState.itineraryDayIndex,
+        itineraryVisible: stored.itineraryVisible === true
       };
     } catch (error) {
       return { ...defaultState };
@@ -181,7 +187,8 @@
     button.addEventListener("click", () => {
       if (group === "category") state.category = label;
       else state.monthId = label;
-      state.itineraryIds = [];
+      state.itineraryVisible = false;
+      state.itineraryDayIndex = 0;
       saveState();
       render();
       const refreshedButton = [...buttonContainer.querySelectorAll("button")].find((entry) => (
@@ -337,13 +344,27 @@
   }
 
   function renderItinerary() {
-    const itineraryPlaces = state.itineraryIds.map((id) => places.find((place) => place.id === id)).filter(Boolean);
-    elements.itinerary.hidden = itineraryPlaces.length === 0;
+    const itinerary = curatedItineraries[state.itineraryDayIndex];
+    const itineraryPlaces = itinerary ? itinerary.placeIds.map((id) => places.find((place) => place.id === id)).filter(Boolean) : [];
+    elements.itinerary.hidden = !state.itineraryVisible || itineraryPlaces.length !== 4;
     elements.itineraryList.innerHTML = "";
+    if (elements.itinerary.hidden) return;
+
+    elements.itineraryTitle.textContent = `Day ${itinerary.day}: ${itinerary.title}`;
     itineraryPlaces.forEach((place) => {
       const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.mapQuery)}`;
       const item = document.createElement("li");
-      item.innerHTML = `<time>${escapeHTML(place.planTime)}</time><strong>${escapeHTML(place.name)}</strong><a href="${mapUrl}" target="_blank" rel="noopener noreferrer">Maps</a>`;
+      item.className = "itinerary-stop";
+      item.innerHTML = `
+        <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.alt)}" loading="lazy">
+        <div class="itinerary-stop-copy">
+          <span class="category-tag">${escapeHTML(place.category)}</span>
+          <strong>${escapeHTML(place.name)}</strong>
+          <p>${escapeHTML(place.description)}</p>
+          <a class="map-link" href="${mapUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open ${escapeHTML(place.name)} in Google Maps (opens in a new tab)">Google Maps <svg aria-hidden="true"><use href="#icon-pin"></use></svg></a>
+        </div>`;
+      const image = item.querySelector("img");
+      image.addEventListener("error", () => image.remove(), { once: true });
       elements.itineraryList.append(item);
     });
   }
@@ -358,7 +379,8 @@
 
   function showSelectedMonth() {
     state.category = "All";
-    state.itineraryIds = [];
+    state.itineraryVisible = false;
+    state.itineraryDayIndex = 0;
     saveState();
     render();
     announce(`${getMonth(state.monthId).label} is ready to explore across all categories.`);
@@ -394,58 +416,37 @@
     announce(`Surprise: ${choice.name}. It is now highlighted in ${context}.`);
   }
 
-  function selectItinerary(candidates) {
-    const orderedCandidates = [...candidates].sort((a, b) => (
-      a.planTime.localeCompare(b.planTime) || a.priority - b.priority || a.name.localeCompare(b.name)
-    ));
-    const selected = [];
-    const seenCategories = new Set();
-
-    for (const place of orderedCandidates) {
-      if (selected.length === 4) break;
-      if (!seenCategories.has(place.category)) {
-        selected.push(place);
-        seenCategories.add(place.category);
-      }
-    }
-    for (const place of orderedCandidates) {
-      if (selected.length === 4) break;
-      if (!selected.some((item) => item.id === place.id)) selected.push(place);
-    }
-    return selected.sort((a, b) => a.planTime.localeCompare(b.planTime) || a.priority - b.priority);
-  }
-
   function buildItinerary() {
-    const selected = selectItinerary(getVisiblePlaces());
-    if (!selected.length) {
-      announce("There are no matching places to add to an itinerary. Clear a filter and try again.");
-      return;
-    }
-    state.itineraryIds = selected.map((place) => place.id);
+    state.itineraryDayIndex = 0;
+    state.itineraryVisible = true;
     saveState();
     renderItinerary();
     elements.itinerary.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    const routeContext = isCategoryOverride()
-      ? `from all ${state.category} places across the year`
-      : `from places available in ${getMonth(state.monthId).label}`;
-    const message = selected.length < 4
-      ? `Your ${selected.length}-stop route is ready ${routeContext}.`
-      : `Your four-stop day in Abha is ready ${routeContext}.`;
-    announce(message);
+    announce("Day 1 of 5 is ready to explore.");
+  }
+
+  function rebuildItinerary() {
+    state.itineraryDayIndex = (state.itineraryDayIndex + 1) % curatedItineraries.length;
+    state.itineraryVisible = true;
+    saveState();
+    renderItinerary();
+    const itinerary = curatedItineraries[state.itineraryDayIndex];
+    announce(`Day ${itinerary.day} of ${curatedItineraries.length} is ready to explore.`);
   }
 
   function clearItinerary() {
-    state.itineraryIds = [];
+    state.itineraryVisible = false;
+    state.itineraryDayIndex = 0;
     saveState();
     renderItinerary();
     announce("Your itinerary has been cleared.");
   }
 
   function loadExample() {
-    state = { ...defaultState, itineraryIds: selectItinerary(getVisiblePlaces()).map((place) => place.id) };
+    state = { ...defaultState, itineraryVisible: true };
     saveState();
     render();
-    announce(`The ${getMonth(state.monthId).label} guide and a sample day are loaded.`);
+    announce("Day 1 of 5 and the current month guide are loaded.");
   }
 
   function announce(message) {
@@ -472,7 +473,7 @@
 
   elements.surpriseButton.addEventListener("click", surpriseMe);
   elements.planButton.addEventListener("click", buildItinerary);
-  elements.rebuildItinerary.addEventListener("click", buildItinerary);
+  elements.rebuildItinerary.addEventListener("click", rebuildItinerary);
   elements.clearItinerary.addEventListener("click", clearItinerary);
   elements.loadExample.addEventListener("click", loadExample);
 

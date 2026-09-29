@@ -22,7 +22,7 @@ To add or replace a local photo, save it inside `images/` and update the matchin
 
 The built-in made-up guide data, monthly descriptions, featured destinations, and year-round recommendations live in `sample-data/data.js` and are loaded by a script tag so the guide also works when `index.html` is opened directly. Use **Load example guide** at the bottom of the page to restore the current month and a sample itinerary.
 
-The browser may save only your selected filters and generated itinerary IDs in localStorage. Nothing you type or choose is sent to GitHub.
+The browser may save only your selected filters and active curated day in localStorage. Nothing you type or choose is sent to GitHub.
 
 ### Features
 
@@ -34,7 +34,7 @@ The browser may save only your selected filters and generated itinerary IDs in l
 - Three featured experiences and a permanent All Year Round restaurant and cafe recommendation section that return in **All / month** view
 - Clean, locally generated seasonal styling with no remote fonts, scripts, image embeds, or libraries required for the design system
 - Google Maps search buttons for every catalog place
-- **Plan My Day** route generator and **Surprise me** picker that use the current month or full-year category result set
+- Five fixed curated day itineraries with local-photo stops; **Make another route** advances through Days 1–5 and loops back to Day 1, while **Surprise me** uses the current month or full-year category result set
 - Keyboard focus styles, responsive cards, and reduced-motion support
 - Locally generated Aseer-inspired design; no remote fonts, scripts, image embeds, or APIs
 

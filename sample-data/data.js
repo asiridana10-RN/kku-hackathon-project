@@ -248,6 +248,34 @@ window.PLACES = [
   }
 ];
 
+window.CURATED_ITINERARIES = [
+  {
+    day: 1,
+    title: "Heritage & Art Walk",
+    placeIds: ["heritage-tuesday-market", "heritage-al-muftaha", "nature-art-street", "heritage-bastat-al-qabil"]
+  },
+  {
+    day: 2,
+    title: "Heritage, Honey & Hospitality",
+    placeIds: ["heritage-rijal-almaa", "heritage-honey-hut", "cafe-near", "dining-haneeth-mollah"]
+  },
+  {
+    day: 3,
+    title: "Soudah Mountain Adventure",
+    placeIds: ["nature-cloud-overlook", "activity-hiking-trails", "activity-strawberry-farm", "dining-sadaf"]
+  },
+  {
+    day: 4,
+    title: "Aseeri Culture & Flavours",
+    placeIds: ["heritage-tabab", "activity-al-qatt-museum", "cafe-butter-bakery", "dining-ala-bali"]
+  },
+  {
+    day: 5,
+    title: "Modern Abha Escape",
+    placeIds: ["activity-seven-abha", "activity-meditation-soudah", "cafe-black-by-location", "dining-sadaf"]
+  }
+];
+
 window.MONTHS = [
   {
     id: "jan",
