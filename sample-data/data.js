@@ -100,7 +100,7 @@ window.PLACES = [
     mapQuery: "Rijal Almaa Heritage Village, Saudi Arabia",
     image: "./images/rijal-almaa.jpg",
     alt: "Stone palaces in Rijal Almaa Heritage Village",
-    description: "Iconic gingerbread stone palaces and historic museums in a warm valley setting",
+    description: "A remarkable heritage village of finely crafted stone palaces, museums, and enduring Aseeri cultural traditions",
     planTime: "09:30",
     priority: 1
   },
@@ -253,27 +253,47 @@ window.CURATED_ITINERARIES = [
   {
     day: 1,
     title: "Heritage & Art Walk",
-    placeIds: ["heritage-tuesday-market", "heritage-al-muftaha", "nature-art-street", "heritage-bastat-al-qabil"]
+    slots: [
+      { label: "Morning", placeIds: ["heritage-tuesday-market"] },
+      { label: "Lunch & Coffee", placeIds: ["heritage-bastat-al-qabil"] },
+      { label: "Afternoon & Evening", placeIds: ["heritage-al-muftaha", "nature-art-street"] }
+    ]
   },
   {
     day: 2,
     title: "Heritage, Honey & Hospitality",
-    placeIds: ["heritage-rijal-almaa", "heritage-honey-hut", "cafe-near", "dining-haneeth-mollah"]
+    slots: [
+      { label: "Morning", placeIds: ["heritage-rijal-almaa", "heritage-honey-hut"] },
+      { label: "Lunch & Coffee", placeIds: ["dining-haneeth-mollah"] },
+      { label: "Afternoon & Evening", placeIds: ["cafe-near"] }
+    ]
   },
   {
     day: 3,
     title: "Soudah Mountain Adventure",
-    placeIds: ["nature-cloud-overlook", "activity-hiking-trails", "activity-strawberry-farm", "dining-sadaf"]
+    slots: [
+      { label: "Morning", placeIds: ["nature-cloud-overlook", "activity-hiking-trails"] },
+      { label: "Lunch & Coffee", placeIds: ["dining-sadaf"] },
+      { label: "Afternoon & Evening", placeIds: ["activity-strawberry-farm"] }
+    ]
   },
   {
     day: 4,
     title: "Aseeri Culture & Flavours",
-    placeIds: ["heritage-tabab", "activity-al-qatt-museum", "cafe-butter-bakery", "dining-ala-bali"]
+    slots: [
+      { label: "Morning", placeIds: ["heritage-tabab", "activity-al-qatt-museum"] },
+      { label: "Lunch & Coffee", placeIds: ["cafe-butter-bakery"] },
+      { label: "Afternoon & Evening", placeIds: ["dining-ala-bali"] }
+    ]
   },
   {
     day: 5,
     title: "Modern Abha Escape",
-    placeIds: ["activity-seven-abha", "activity-meditation-soudah", "cafe-black-by-location", "dining-sadaf"]
+    slots: [
+      { label: "Morning", placeIds: ["activity-meditation-soudah", "activity-seven-abha"] },
+      { label: "Lunch & Coffee", placeIds: ["cafe-black-by-location"] },
+      { label: "Afternoon & Evening", placeIds: ["dining-sadaf"] }
+    ]
   }
 ];
 

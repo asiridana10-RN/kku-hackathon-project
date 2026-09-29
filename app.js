@@ -7,7 +7,7 @@
   const curatedItineraries = Array.isArray(window.CURATED_ITINERARIES) ? window.CURATED_ITINERARIES : [];
   const storageKey = "abha-visitor-guide-state";
   const schemaVersion = 7;
-  const datasetVersion = "abha-19-curated-itineraries-v12";
+  const datasetVersion = "abha-19-curated-itineraries-v13";
   const weatherEndpoint = "https://api.open-meteo.com/v1/forecast?latitude=18.2164&longitude=42.5053&current=temperature_2m,relative_humidity_2m,weather_code&temperature_unit=celsius&timezone=auto";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
   const allowedEffects = ["clouds", "pink-petals", "petals", "sunny", "rain"];
@@ -123,10 +123,15 @@
     const validAllYearGroups = typeof allYearRound.subtitle === "string" && allYearRound.subtitle.trim() &&
       Array.isArray(allYearRound.groups) && allYearRound.groups.length === 2 &&
       allYearRound.groups.every((group) => group && typeof group.label === "string" && Array.isArray(group.items) && group.items.length && group.items.every((item) => !item.placeId || ids.has(item.placeId)));
-    const validCuratedItineraries = curatedItineraries.every((itinerary, index) => itinerary &&
-      itinerary.day === index + 1 && typeof itinerary.title === "string" && itinerary.title.trim() &&
-      Array.isArray(itinerary.placeIds) && itinerary.placeIds.length === 4 && new Set(itinerary.placeIds).size === 4 &&
-      itinerary.placeIds.every((id) => ids.has(id)));
+    const itinerarySlotLabels = ["Morning", "Lunch & Coffee", "Afternoon & Evening"];
+    const validCuratedItineraries = curatedItineraries.every((itinerary, index) => {
+      if (!itinerary || itinerary.day !== index + 1 || typeof itinerary.title !== "string" || !itinerary.title.trim() ||
+        !Array.isArray(itinerary.slots) || itinerary.slots.length !== itinerarySlotLabels.length) return false;
+      if (!itinerary.slots.every((slot, slotIndex) => slot && slot.label === itinerarySlotLabels[slotIndex] &&
+        Array.isArray(slot.placeIds) && slot.placeIds.length && slot.placeIds.every((id) => ids.has(id)))) return false;
+      const itineraryPlaceIds = itinerary.slots.flatMap((slot) => slot.placeIds);
+      return itineraryPlaceIds.length === 4 && new Set(itineraryPlaceIds).size === 4;
+    });
 
     return validAllYearGroups && validCuratedItineraries && images.size === catalogSize &&
       allowedCategories.every((category) => actualCategoryTotals[category] === categoryTotals[category]);
@@ -366,29 +371,43 @@
     visiblePlaces.forEach((place) => elements.placesGrid.append(createCard(place)));
   }
 
+  function renderItineraryStop(place) {
+    const mapUrl = getMapUrl(place);
+    const item = document.createElement("li");
+    item.className = "itinerary-stop";
+    item.innerHTML = `
+      <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.alt)}" loading="lazy">
+      <div class="itinerary-stop-copy">
+        <span class="category-tag">${escapeHTML(place.category)}</span>
+        <strong>${escapeHTML(place.name)}</strong>
+        <p>${escapeHTML(place.description)}</p>
+        <a class="map-link" href="${mapUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open ${escapeHTML(place.name)} in Google Maps (opens in a new tab)">Google Maps <svg aria-hidden="true"><use href="#icon-pin"></use></svg></a>
+      </div>`;
+    const image = item.querySelector("img");
+    image.addEventListener("error", () => image.remove(), { once: true });
+    return item;
+  }
+
   function renderItinerary() {
     const itinerary = curatedItineraries[state.itineraryDayIndex];
-    const itineraryPlaces = itinerary ? itinerary.placeIds.map((id) => places.find((place) => place.id === id)).filter(Boolean) : [];
-    elements.itinerary.hidden = !state.itineraryVisible || itineraryPlaces.length !== 4;
+    const slots = itinerary ? itinerary.slots.map((slot) => ({
+      ...slot,
+      places: slot.placeIds.map((id) => places.find((place) => place.id === id)).filter(Boolean)
+    })) : [];
+    const itineraryPlaceCount = slots.reduce((count, slot) => count + slot.places.length, 0);
+    elements.itinerary.hidden = !state.itineraryVisible || slots.length !== 3 || itineraryPlaceCount !== 4;
     elements.itineraryList.innerHTML = "";
     if (elements.itinerary.hidden) return;
 
     elements.itineraryTitle.textContent = `Day ${itinerary.day}: ${itinerary.title}`;
-    itineraryPlaces.forEach((place) => {
-      const mapUrl = getMapUrl(place);
-      const item = document.createElement("li");
-      item.className = "itinerary-stop";
-      item.innerHTML = `
-        <img src="${escapeHTML(place.image)}" alt="${escapeHTML(place.alt)}" loading="lazy">
-        <div class="itinerary-stop-copy">
-          <span class="category-tag">${escapeHTML(place.category)}</span>
-          <strong>${escapeHTML(place.name)}</strong>
-          <p>${escapeHTML(place.description)}</p>
-          <a class="map-link" href="${mapUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open ${escapeHTML(place.name)} in Google Maps (opens in a new tab)">Google Maps <svg aria-hidden="true"><use href="#icon-pin"></use></svg></a>
-        </div>`;
-      const image = item.querySelector("img");
-      image.addEventListener("error", () => image.remove(), { once: true });
-      elements.itineraryList.append(item);
+    slots.forEach((slot) => {
+      const group = document.createElement("li");
+      group.className = "itinerary-slot";
+      group.setAttribute("aria-label", `${slot.label}: ${slot.places.map((place) => place.name).join(", ")}`);
+      group.innerHTML = `<p class="itinerary-slot-label">${escapeHTML(slot.label)}</p><ol class="itinerary-slot-stops"></ol>`;
+      const list = group.querySelector("ol");
+      slot.places.forEach((place) => list.append(renderItineraryStop(place)));
+      elements.itineraryList.append(group);
     });
   }
 
