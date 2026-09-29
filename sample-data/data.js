@@ -40,14 +40,14 @@ window.PLACES = [
   },
   {
     id: "cafe-near",
-    name: "Near Cafe (كافيه نير)",
+    name: "Nair Coffee | نير كافيه",
     category: "Cafes",
     availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "45–60 minutes",
-    mapQuery: "Near Cafe, Abha, Saudi Arabia",
-    mapUrl: "https://maps.app.goo.gl/KaMGfEFt5tfFZn8t6?g_st=ic",
+    mapQuery: "Nair Coffee, Abha, Saudi Arabia",
+    mapUrl: "https://maps.app.goo.gl/rzLaZzBzNXLbsnWi8?g_st=ic",
     image: "./images/near.jpg",
-    alt: "A welcoming specialty coffee setting at Near Cafe in Abha",
+    alt: "A welcoming specialty coffee setting at Nair Coffee in Abha",
     description: "A relaxed local coffee stop for carefully prepared drinks and an easygoing Aseer atmosphere",
     planTime: "09:00",
     priority: 1
@@ -459,7 +459,7 @@ window.ALL_YEAR_ROUND = {
     {
       label: "Cafes",
       items: [
-        { label: "Near Cafe", placeId: "cafe-near" },
+        { label: "Nair Coffee | نير كافيه", placeId: "cafe-near" },
         { label: "Butter Bakery", placeId: "cafe-butter-bakery" },
         { label: "Black by Location", placeId: "cafe-black-by-location" }
       ]
