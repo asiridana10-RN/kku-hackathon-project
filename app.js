@@ -9,7 +9,7 @@
   const schemaVersion = 7;
   const datasetVersion = "abha-19-curated-itineraries-v9";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
-  const allowedEffects = ["calm", "warm", "spring", "jacaranda", "fog", "rain", "cloud", "rain-soft"];
+  const allowedEffects = ["clouds", "petals", "sunny", "rain"];
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
   const catalogSize = 19;
   const categoryTotals = {

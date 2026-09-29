@@ -30,7 +30,7 @@ The browser may save only your selected filters and active curated day in localS
 - Exact categories: All, Dining, Cafes, Heritage & Markets, Nature, and Activities
 - A dual-side header: global category filters on the left and twelve touch-friendly month tabs on the right
 - Five global category filters that show every matching record across the year; **All / month** restores the selected month's available places
-- A warm clay-and-paper Al-Qatt Al-Asiri design system across the whole guide, with twelve dynamic monthly hero stories, subtle seasonal washes, and CSS-only mist, rain, or Jacaranda petal details
+- A warm clay-and-paper Al-Qatt Al-Asiri design system across the whole guide, with twelve dynamic monthly hero stories and subtle full-screen CSS-only clouds, sunshine, rain, or Jacaranda petals
 - Three featured experiences and a permanent All Year Round restaurant and cafe recommendation section that return in **All / month** view
 - Clean, locally generated seasonal styling with no remote fonts, scripts, image embeds, or libraries required for the design system
 - Google Maps search buttons for every catalog place

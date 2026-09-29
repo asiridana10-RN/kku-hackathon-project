@@ -120,6 +120,38 @@ a { color: inherit; }
 .site-shell[data-theme="june"] .hero, .site-shell[data-theme="july"] .hero, .site-shell[data-theme="august"] .hero, .site-shell[data-theme="september"] .hero { --hero-wash-rgb: 0, 105, 116; --hero-wash-opacity: .13; }
 .site-shell[data-theme="october"] .hero, .site-shell[data-theme="november"] .hero { --hero-wash-rgb: 181, 80, 31; --hero-wash-opacity: .13; }
 .site-shell[data-theme="december"] .hero { --hero-wash-rgb: 52, 74, 128; --hero-wash-opacity: .12; }
+.site-shell > :not(.seasonal-atmosphere) { position: relative; z-index: 20; }
+.seasonal-atmosphere { position: fixed; z-index: 10; inset: 0; overflow: hidden; pointer-events: none; }
+.seasonal-sun, .seasonal-cloud, .seasonal-rain, .seasonal-petals { position: absolute; opacity: 0; pointer-events: none; transition: opacity 190ms ease; }
+.seasonal-sun { inset: 0; background: radial-gradient(ellipse 56% 42% at 88% 8%, rgba(255, 218, 121, .25), rgba(255, 242, 197, .08) 35%, transparent 72%); }
+.seasonal-cloud { height: clamp(104px, 18vw, 236px); border-radius: 50%; background: radial-gradient(ellipse at center, rgba(255, 253, 247, .42) 0 25%, rgba(255, 253, 247, .2) 45%, transparent 72%); will-change: transform, opacity; }
+.seasonal-cloud-one { top: 12%; left: -14%; width: min(64vw, 820px); }
+.seasonal-cloud-two { top: 43%; right: -18%; width: min(58vw, 740px); }
+.seasonal-cloud-three { bottom: 5%; left: 15%; width: min(47vw, 610px); opacity: 0; }
+.seasonal-rain { inset: -28% -18%; overflow: hidden; will-change: opacity; }
+.seasonal-rain::before { position: absolute; inset: 0; content: ""; background: repeating-linear-gradient(112deg, transparent 0 34px, rgba(25, 118, 210, .32) 35px 36px, transparent 37px 70px); transform: translate3d(0, -11%, 0); will-change: transform; }
+.seasonal-petals { inset: 0; overflow: hidden; }
+.seasonal-petals i { position: absolute; display: block; width: 13px; height: 18px; opacity: .48; background: linear-gradient(145deg, #d7a1cf, #89549c); border-radius: 70% 30% 70% 30%; box-shadow: 0 0 9px rgba(143, 77, 158, .18); transform: rotate(35deg); will-change: transform, opacity; }
+.seasonal-petals i:nth-child(1) { top: -8%; left: 8%; }
+.seasonal-petals i:nth-child(2) { top: -16%; left: 22%; width: 10px; height: 14px; animation-delay: -4s; }
+.seasonal-petals i:nth-child(3) { top: -11%; left: 37%; animation-delay: -8s; }
+.seasonal-petals i:nth-child(4) { top: -18%; left: 51%; width: 11px; height: 16px; animation-delay: -2s; }
+.seasonal-petals i:nth-child(5) { top: -9%; left: 66%; animation-delay: -10s; }
+.seasonal-petals i:nth-child(6) { top: -15%; left: 77%; width: 10px; height: 14px; animation-delay: -6s; }
+.seasonal-petals i:nth-child(7) { top: -6%; left: 89%; animation-delay: -12s; }
+.seasonal-petals i:nth-child(8) { top: -13%; left: 95%; width: 10px; height: 14px; animation-delay: -1s; }
+.site-shell[data-effect="sunny"] .seasonal-sun { opacity: 1; }
+.site-shell[data-effect="clouds"] .seasonal-cloud-one, .site-shell[data-effect="clouds"] .seasonal-cloud-two { opacity: .24; }
+.site-shell[data-effect="clouds"] .seasonal-cloud-three { opacity: .15; }
+.site-shell[data-effect="rain"] .seasonal-rain { opacity: .13; }
+.site-shell[data-effect="petals"] .seasonal-petals { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .site-shell[data-effect="clouds"] .seasonal-cloud-one { animation: seasonal-cloud-drift-one 22s ease-in-out infinite alternate; }
+  .site-shell[data-effect="clouds"] .seasonal-cloud-two { animation: seasonal-cloud-drift-two 27s ease-in-out infinite alternate; }
+  .site-shell[data-effect="clouds"] .seasonal-cloud-three { animation: seasonal-cloud-drift-three 24s ease-in-out infinite alternate; }
+  .site-shell[data-effect="rain"] .seasonal-rain::before { animation: seasonal-rainfall 2.8s linear infinite; }
+  .site-shell[data-effect="petals"] .seasonal-petals i { animation: seasonal-petals-fall 15s linear infinite; }
+}
 .hero-atmosphere { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; }
 .qatt-strip, .qatt-divider, .qatt-rail { display: block; pointer-events: none; }
 .qatt-strip { position: absolute; }
@@ -135,27 +167,6 @@ a { color: inherit; }
 .qatt-rail-left { left: max(0px, calc((100% - 1280px) / 2)); }
 .qatt-rail-right { right: max(0px, calc((100% - 1280px) / 2)); }
 .guide-main > :not(.guide-frame) { position: relative; z-index: 1; }
-.hero .mist { background: rgb(var(--hero-wash-rgb)); opacity: .13; }
-.hero .mist-one { width: 54vw; height: 160px; top: 205px; left: -16vw; }
-.hero .mist-two { width: 48vw; height: 140px; top: 365px; right: -15vw; }
-.hero .mist-three { width: 37vw; height: 100px; top: 472px; left: 31vw; opacity: .09; }
-.hero .rain-layer { position: absolute; inset: 0; display: none; opacity: .13; background: repeating-linear-gradient(112deg, transparent 0 25px, rgba(25,118,210,.36) 26px 27px, transparent 28px 50px); background-size: 150px 120px; }
-.hero .petal-layer { position: absolute; display: none; inset: 0; overflow: hidden; }
-.hero .petal-layer i { position: absolute; display: block; width: 13px; height: 18px; opacity: .38; background: linear-gradient(145deg, #D7A1CF, #89549C); border-radius: 70% 30% 70% 30%; box-shadow: 0 0 9px rgba(143,77,158,.18); transform: rotate(35deg); }
-.hero .petal-layer i:nth-child(1) { top: 10%; left: 8%; }
-.hero .petal-layer i:nth-child(2) { top: 22%; left: 28%; width: 10px; height: 14px; animation-delay: -4s; }
-.hero .petal-layer i:nth-child(3) { top: 7%; left: 52%; animation-delay: -7s; }
-.hero .petal-layer i:nth-child(4) { top: 34%; left: 69%; width: 11px; height: 16px; animation-delay: -2s; }
-.hero .petal-layer i:nth-child(5) { top: 18%; left: 86%; animation-delay: -9s; }
-.hero .petal-layer i:nth-child(6) { top: 54%; left: 15%; width: 10px; height: 14px; animation-delay: -5s; }
-.hero .petal-layer i:nth-child(7) { top: 48%; left: 45%; animation-delay: -11s; }
-.hero .petal-layer i:nth-child(8) { top: 63%; left: 79%; width: 10px; height: 14px; animation-delay: -1s; }
-.site-shell[data-effect="rain"] .hero .rain-layer { display: block; animation: rainfall 1.25s linear infinite; }
-.site-shell[data-effect="jacaranda"] .hero .petal-layer { display: block; }
-.site-shell[data-effect="jacaranda"] .hero .petal-layer i { animation: petals-fall 13s linear infinite; }
-.site-shell[data-effect="cloud"] .hero .mist, .site-shell[data-effect="fog"] .hero .mist { animation: drift 13s ease-in-out infinite alternate; }
-.site-shell[data-effect="calm"] .hero .mist { opacity: .08; }
-.site-shell[data-effect="rain-soft"] .hero .rain-layer { display: block; opacity: .08; animation: rainfall 2.4s linear infinite; }
 .topbar, .hero-content, .header-navigation, .hero-meta { position: relative; z-index: 1; }
 .topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
 .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--ink); font-family: var(--serif); font-size: 1.35rem; font-weight: 700; text-decoration: none; letter-spacing: -.03em; }
@@ -348,14 +359,16 @@ h1 i, h2 i { color: var(--primary); font-weight: 400; }
 .footer-pattern span { display: block; width: 12px; height: 12px; background: #d32f2f; transform: rotate(45deg); }
 .footer-pattern span:nth-child(2), .footer-pattern span:nth-child(4) { background: var(--accent); }
 .footer-pattern span:nth-child(3) { background: var(--warm-gold); }
-.toast { position: fixed; z-index: 20; right: 20px; bottom: 20px; max-width: min(360px, calc(100vw - 40px)); padding: 12px 15px; color: var(--paper); background: var(--ink); border: 2px solid var(--accent); border-radius: 4px; box-shadow: var(--shadow); font-size: .87rem; font-weight: 900; opacity: 0; pointer-events: none; transform: translateY(14px); transition: opacity var(--ease), transform var(--ease); }
+.toast { position: fixed; z-index: 30; right: 20px; bottom: 20px; max-width: min(360px, calc(100vw - 40px)); padding: 12px 15px; color: var(--paper); background: var(--ink); border: 2px solid var(--accent); border-radius: 4px; box-shadow: var(--shadow); font-size: .87rem; font-weight: 900; opacity: 0; pointer-events: none; transform: translateY(14px); transition: opacity var(--ease), transform var(--ease); }
 .toast.is-visible { opacity: 1; transform: translateY(0); }
 :focus-visible { outline: 3px solid #0b5cad; outline-offset: 3px; box-shadow: 0 0 0 6px var(--paper); }
 .guide-main #featuredSection[hidden] + .all-year-divider, .guide-main #allYearSection[hidden] + .qatt-divider { display: none; }
 
-@keyframes rainfall { from { background-position: 0 0; } to { background-position: -58px 120px; } }
-@keyframes petals-fall { from { transform: translate3d(0, -20px, 0) rotate(20deg); opacity: 0; } 12% { opacity: .62; } to { transform: translate3d(90px, 520px, 0) rotate(300deg); opacity: 0; } }
-@keyframes drift { from { transform: translate3d(-2%, 0, 0) rotate(-7deg); } to { transform: translate3d(5%, 12px, 0) rotate(-1deg); } }
+@keyframes seasonal-cloud-drift-one { from { transform: translate3d(-3%, 0, 0); } to { transform: translate3d(9%, 14px, 0); } }
+@keyframes seasonal-cloud-drift-two { from { transform: translate3d(5%, 0, 0); } to { transform: translate3d(-8%, -12px, 0); } }
+@keyframes seasonal-cloud-drift-three { from { transform: translate3d(-2%, 0, 0); } to { transform: translate3d(7%, -9px, 0); } }
+@keyframes seasonal-rainfall { from { transform: translate3d(0, -11%, 0); } to { transform: translate3d(-5%, 11%, 0); } }
+@keyframes seasonal-petals-fall { from { transform: translate3d(0, -12vh, 0) rotate(20deg); opacity: 0; } 12% { opacity: .56; } to { transform: translate3d(115px, 115vh, 0) rotate(300deg); opacity: 0; } }
 
 @media (max-width: 1279px) {
   .qatt-rail { display: none; }
@@ -428,8 +441,6 @@ h1 i, h2 i { color: var(--primary); font-weight: 400; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero .rain-layer, .hero .petal-layer { display: none !important; }
-  .hero .mist { animation: none !important; }
-  .hero { transition: none; }
+  .seasonal-atmosphere, .seasonal-atmosphere *, .hero { transition: none !important; animation: none !important; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
