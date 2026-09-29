@@ -2,7 +2,7 @@
 
 ## What it does
 
-A polished, single-page guide to 22 handpicked dining, cafe, heritage, market, nature, and activity locations in Abha and Aseer. The dual-side header lets you choose a month for its Modern Aseer palette, hero story, atmospheric effects, featured experiences, and matching places—or choose a category to see every matching place across the full year. Open a location in Google Maps, generate an easy four-stop day, or use **Surprise me** to discover a random place.
+A polished, single-page guide to 20 handpicked dining, cafe, heritage, market, nature, and activity locations in Abha and Aseer. The dual-side header lets you choose a month for its Modern Aseer palette, hero story, atmospheric effects, featured experiences, and matching places—or choose a category to see every matching place across the full year. Open a location in Google Maps, generate an easy four-stop day, or use **Surprise me** to discover a random place.
 
 ## Who it is for
 
@@ -16,7 +16,7 @@ A modern web browser. No installation, account, server, or internet connection i
 
 Double-click `index.html` to open the guide in a browser. It runs directly from the folder without a build step or server.
 
-To add real local photos, place files named `place1.jpg` through `place22.jpg` inside `images/`. Until then, each card intentionally shows a clean visible fallback with an optional Unsplash link.
+To add real local photos, place files named `place1.jpg` through `place20.jpg` inside `images/`. Until then, each card intentionally shows a clean visible fallback with an optional Unsplash link.
 
 ## Try it with the sample data
 
@@ -26,7 +26,7 @@ The browser may save only your selected filters and generated itinerary IDs in l
 
 ### Features
 
-- Twenty-two English-language places across Abha and Aseer
+- Twenty English-language places across Abha and Aseer
 - Exact categories: All, Dining, Cafes, Heritage & Markets, Nature, and Activities
 - A dual-side header: global category filters on the left and twelve touch-friendly month tabs on the right
 - Five global category filters that show every matching record across the year; **All / month** restores the selected month's available places

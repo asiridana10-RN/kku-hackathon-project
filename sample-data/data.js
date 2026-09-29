@@ -208,43 +208,17 @@ window.PLACES = [
     priority: 1
   },
   {
-    id: "activity-tahlal-museum",
-    name: "Tahlal Museum",
-    category: "Activities",
-    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
-    duration: "1–2 hours",
-    mapQuery: "Tahlal Museum, Abha, Saudi Arabia",
-    image: "./images/place17.jpg",
-    alt: "Cultural artifacts displayed at Tahlal Museum in Abha",
-    description: "A rich local museum displaying authentic cultural artifacts and regional heritage",
-    planTime: "10:00",
-    priority: 1
-  },
-  {
     id: "activity-al-qatt-museum",
     name: "Al-Qatt Al-Asiri Museum",
     category: "Activities",
     availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Al-Qatt Al-Asiri Museum, Abha, Saudi Arabia",
-    image: "./images/place18.jpg",
+    image: "./images/place17.jpg",
     alt: "Colourful Al-Qatt Al-Asiri geometric art in an Abha museum",
     description: "Exhibiting the vibrant geometric wall-painting art traditional to Aseer women",
     planTime: "14:30",
     priority: 2
-  },
-  {
-    id: "nature-ezz-overlook",
-    name: "Ezz Overlook in Soudah",
-    category: "Nature",
-    availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
-    duration: "1–2 hours",
-    mapQuery: "Ezz Overlook, Soudah, Saudi Arabia",
-    image: "./images/place19.jpg",
-    alt: "Tihama mountain cliffs viewed from Ezz Overlook in Soudah",
-    description: "Spectacular panoramic cliff views over the dramatic Tihama mountains",
-    planTime: "16:30",
-    priority: 1
   },
   {
     id: "nature-cloud-overlook",
@@ -253,7 +227,7 @@ window.PLACES = [
     availableMonths: ["jul", "aug", "sep"],
     duration: "1–2 hours",
     mapQuery: "Cloud Overlook Al-Sahab, Soudah, Saudi Arabia",
-    image: "./images/place20.jpg",
+    image: "./images/place18.jpg",
     alt: "Clouds below the high-altitude Al-Sahab overlook in Soudah",
     description: "Breathtaking high-altitude viewpoint where you literally stand above the clouds",
     planTime: "17:00",
@@ -266,7 +240,7 @@ window.PLACES = [
     availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Al-Muftaha Village, Abha, Saudi Arabia",
-    image: "./images/place21.jpg",
+    image: "./images/place19.jpg",
     alt: "Traditional architecture and galleries at Al-Muftaha Village in Abha",
     description: "A famous cultural and artistic center featuring galleries, studios, and traditional architecture",
     planTime: "15:30",
@@ -279,7 +253,7 @@ window.PLACES = [
     availableMonths: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
     duration: "1–2 hours",
     mapQuery: "Bastat Al-Qabil, Abha, Saudi Arabia",
-    image: "./images/place22.jpg",
+    image: "./images/place20.jpg",
     alt: "A traditional pedestrian market street in Abha",
     description: "A historic traditional market and pedestrian street offering authentic local items and vibes",
     planTime: "18:00",
@@ -310,7 +284,7 @@ window.MONTHS = [
     heroTitle: "February in Abha",
     heroSubtitle: "Tales from Aseeri Heritage",
     description: "Focused on heritage, tranquil mountain villages, and peaceful natural scenery.",
-    featuredIds: ["heritage-rijal-almaa", "nature-bani-mazen", "activity-tahlal-museum"]
+    featuredIds: ["heritage-rijal-almaa", "nature-bani-mazen", "activity-al-qatt-museum"]
   },
   {
     id: "mar",
@@ -358,7 +332,7 @@ window.MONTHS = [
     heroTitle: "June in Abha",
     heroSubtitle: "Mountains Closer to the Clouds",
     description: "Kickstarting peak mountain season with cool highlands, crisp air, and early signs of fog and summer rain.",
-    featuredIds: ["activity-meditation-soudah", "activity-hiking-trails", "nature-ezz-overlook"]
+    featuredIds: ["activity-meditation-soudah", "activity-hiking-trails", "activity-al-qatt-museum"]
   },
   {
     id: "jul",
@@ -370,7 +344,7 @@ window.MONTHS = [
     heroTitle: "July in Abha",
     heroSubtitle: "When the Mountains Rain",
     description: "Classic Aseer monsoon atmosphere with heavy fog, rain, flowing valleys, and dramatic cloudscapes high above the peaks.",
-    featuredIds: ["nature-cloud-overlook", "nature-ezz-overlook", "activity-hiking-trails"]
+    featuredIds: ["nature-cloud-overlook", "activity-al-qatt-museum", "activity-hiking-trails"]
   },
   {
     id: "aug",
@@ -430,7 +404,7 @@ window.MONTHS = [
     heroTitle: "December in Abha",
     heroSubtitle: "Winter Infused with Aseer's Spirit",
     description: "Crisp winter season highlighting rich heritage, indoor museums, cultural centers, and historical landmarks.",
-    featuredIds: ["heritage-tabab", "heritage-al-muftaha", "activity-tahlal-museum"]
+    featuredIds: ["heritage-tabab", "heritage-al-muftaha", "activity-al-qatt-museum"]
   }
 ];
 

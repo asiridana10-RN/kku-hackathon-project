@@ -6,17 +6,17 @@
   const allYearRound = window.ALL_YEAR_ROUND && typeof window.ALL_YEAR_ROUND === "object" ? window.ALL_YEAR_ROUND : null;
   const storageKey = "abha-visitor-guide-state";
   const schemaVersion = 6;
-  const datasetVersion = "abha-22-clean-seasonal-catalog-v6";
+  const datasetVersion = "abha-20-clean-seasonal-catalog-v7";
   const allowedThemeKeys = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
   const allowedEffects = ["calm", "warm", "spring", "jacaranda", "fog", "rain", "cloud", "rain-soft"];
   const categories = ["All", "Dining", "Cafes", "Heritage & Markets", "Nature", "Activities"];
-  const catalogSize = 22;
+  const catalogSize = 20;
   const categoryTotals = {
     Dining: 3,
     Cafes: 3,
     "Heritage & Markets": 6,
-    Nature: 4,
-    Activities: 6
+    Nature: 3,
+    Activities: 5
   };
   const expectedMonthIds = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
   const defaultMonthId = expectedMonthIds[new Date().getMonth()];
@@ -69,7 +69,7 @@
     const ids = new Set();
     const images = new Set();
     const timePattern = /^([01]\d|2[0-3]):[0-5]\d$/;
-    const imagePattern = new RegExp(`^\\./images/place(?:[1-9]|1\\d|2[0-${catalogSize - 20}])\\.jpg$`);
+    const expectedImages = Array.from({ length: catalogSize }, (_, index) => `./images/place${index + 1}.jpg`);
 
     if (places.length !== catalogSize || months.length !== expectedMonthIds.length || !allYearRound) return false;
     if (!months.every((month, index) => month && month.id === expectedMonthIds[index] &&
@@ -83,7 +83,7 @@
       if (!Array.isArray(place.availableMonths) || !place.availableMonths.length || place.availableMonths.some((monthId) => !expectedMonthIds.includes(monthId))) return false;
       if (![("name"), ("description"), ("duration"), ("mapQuery"), ("image"), ("alt")].every((field) => typeof place[field] === "string" && place[field].trim())) return false;
       if (!timePattern.test(place.planTime) || !Number.isInteger(place.priority) || place.priority < 1) return false;
-      if (!imagePattern.test(place.image) || images.has(place.image)) return false;
+      if (!expectedImages.includes(place.image) || images.has(place.image)) return false;
       ids.add(place.id);
       images.add(place.image);
       actualCategoryTotals[place.category] += 1;
@@ -94,7 +94,6 @@
       return featuredPlace && featuredPlace.availableMonths.includes(month.id);
     }))) return false;
 
-    const expectedImages = Array.from({ length: catalogSize }, (_, index) => `./images/place${index + 1}.jpg`);
     const validAllYearGroups = typeof allYearRound.subtitle === "string" && allYearRound.subtitle.trim() &&
       Array.isArray(allYearRound.groups) && allYearRound.groups.length === 2 &&
       allYearRound.groups.every((group) => group && typeof group.label === "string" && Array.isArray(group.items) && group.items.length && group.items.every((item) => !item.placeId || ids.has(item.placeId)));
