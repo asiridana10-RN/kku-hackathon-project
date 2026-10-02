@@ -7,6 +7,32 @@
   <title>Abha Visitor Guide | Aseer, Saudi Arabia</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="weather-effects.css">
+  /* --- تنسيق زر المزاج الجديد وخياراته --- */
+.mood-toggle-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.mood-option-btn {
+  background-color: #4a2c2a;
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.mood-option-btn:hover {
+  background-color: #2b1817;
+}
   <style>
 /* --- تنسيقات المزاج والتقييمات --- */
 .mood-container { background: #f4f8f5; border-radius: 12px; padding: 20px; margin: 20px auto; max-width: 900px; text-align: center; border: 1px solid #dcdcd1; }
@@ -168,8 +194,20 @@
         <p class="hero-copy" id="heroDescription"></p>
         <div class="hero-actions">
           <a class="button button-primary" href="#places">Explore the guide <svg aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
-          <button class="button button-quiet" type="button" id="surpriseButton"><svg aria-hidden="true"><use href="#icon-spark"></use></svg> Surprise me</button>
-        </div>
+<!-- زر What's Your Mood الجديد ببديل Surprise me -->
+<button type="button" class="mood-toggle-btn" onclick="toggleMoodSelector()">
+  ✨ What's your mood?
+</button>
+
+<!-- خيارات المزاج التي تظهر عند الضغط على الزر -->
+<div id="mood-selector-container" style="display: none; margin-top: 15px; text-align: center;">
+  <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+    <button type="button" class="mood-option-btn" onclick="filterByMood('relax')">🌿 Relax</button>
+    <button type="button" class="mood-option-btn" onclick="filterByMood('adventure')">🧗 Adventure</button>
+    <button type="button" class="mood-option-btn" onclick="filterByMood('discovery')">🏛️ Discovery</button>
+    <button type="button" class="mood-option-btn" onclick="filterByMood('mix')">✨ Mix</button>
+  </div>
+</div>        </div>
       </div>
 
       <section class="header-navigation" aria-label="Guide filters">
@@ -461,6 +499,27 @@ function addReview(event) {
   reviewsList.insertBefore(reviewCard, reviewsList.firstChild);
   document.getElementById("review-form").reset();
   alert("Thank you for your review!");
+}
+  // دوال التحكم بزر المزاج والتوزيع الكامل لـ 19 مكان
+const moodCategories = {
+  relax: ["Butter Bakery", "Art Street", "Nair Coffee", "Abha Dam Lake", "High City"],
+  adventure: ["Al Soudah Park", "Jabal Sawda Cable Car", "Habala Village", "Neom Farm", "Green Mountain"],
+  discovery: ["Rijal Almaa Heritage Village", "Shada Palace", "Al-Muftaha Art Village", "Tuesdays Market", "Al Bastah District"],
+  mix: ["Butter Bakery", "Al Soudah Park", "Rijal Almaa Heritage Village", "Nair Coffee", "Green Mountain", "High City"]
+};
+
+function toggleMoodSelector() {
+  const container = document.getElementById("mood-selector-container");
+  if (container) {
+    container.style.display = (container.style.display === "none" || container.style.display === "") ? "block" : "none";
+  }
+}
+
+function filterByMood(moodKey) {
+  const selectedPlaces = moodCategories[moodKey];
+  if (selectedPlaces) {
+    alert("Selected Mood: " + moodKey.toUpperCase() + "\nPlaces: " + selectedPlaces.join(", "));
+  }
 }
 </script>
 </body>
