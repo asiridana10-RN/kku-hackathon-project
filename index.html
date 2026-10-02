@@ -7,32 +7,6 @@
   <title>Abha Visitor Guide | Aseer, Saudi Arabia</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="weather-effects.css">
-  /* --- تنسيق زر المزاج الجديد وخياراته --- */
-.mood-toggle-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: #ffffff;
-  border: 1px solid #222222;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 8px;
-}
-
-.mood-option-btn {
-  background-color: #4a2c2a;
-  color: #ffffff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.mood-option-btn:hover {
-  background-color: #2b1817;
-}
   <style>
 /* --- تنسيقات المزاج والتقييمات --- */
 .mood-container { background: #f4f8f5; border-radius: 12px; padding: 20px; margin: 20px auto; max-width: 900px; text-align: center; border: 1px solid #dcdcd1; }
@@ -65,33 +39,6 @@
       <path d="m12 2 1.7 6.3L20 10l-6.3 1.7L12 18l-1.7-6.3L4 10l6.3-1.7L12 2Z"></path>
       <path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16Z"></path>
     </symbol>
-    <!-- ================= قسم What's your Mood (في الأعلى) ================= -->
-<div class="mood-container">
-  <h3>What's your mood today? 🤔</h3>
-  <p>Select your mood to get a curated itinerary from our 19 Abha destinations!</p>
-  
-  <div class="mood-buttons">
-    <button class="mood-btn" onclick="showMoodSchedule('relax')">🌿 Relax & Chill</button>
-    <button class="mood-btn" onclick="showMoodSchedule('adventure')">🧗 Nature & Adventure</button>
-    <button class="mood-btn" onclick="showMoodSchedule('discovery')">🏛️ Heritage & Culture</button>
-    <button class="mood-btn" onclick="showMoodSchedule('mix')">✨ Full Abha Experience (Mix)</button>
-  </div>
-
-  <!-- جدول عرض الاقتراحات حسب المزاج -->
-  <div id="mood-result" class="mood-result" style="display: none;">
-    <h4 id="mood-title"></h4>
-    <table class="mood-table">
-      <thead>
-        <tr>
-          <th>Time / الوقت</th>
-          <th>Suggested Place / المكان المقترح</th>
-          <th>Category & Vibe / التصنيف والأجواء</th>
-        </tr>
-      </thead>
-      <tbody id="mood-table-body"></tbody>
-    </table>
-  </div>
-</div>
     <symbol id="icon-route" viewBox="0 0 24 24">
       <path d="M5 20c0-3.6 5-4.4 5-8.2C10 8 5 8.6 5 5a3 3 0 1 1 6 0c0 1.6-1.2 2.6-2.5 3.5"></path>
       <path d="M13 19h3a3 3 0 1 0 0-6h-2.5"></path>
@@ -194,20 +141,8 @@
         <p class="hero-copy" id="heroDescription"></p>
         <div class="hero-actions">
           <a class="button button-primary" href="#places">Explore the guide <svg aria-hidden="true"><use href="#icon-arrow"></use></svg></a>
-<!-- زر What's Your Mood الجديد ببديل Surprise me -->
-<button type="button" class="mood-toggle-btn" onclick="toggleMoodSelector()">
-  ✨ What's your mood?
-</button>
-
-<!-- خيارات المزاج التي تظهر عند الضغط على الزر -->
-<div id="mood-selector-container" style="display: none; margin-top: 15px; text-align: center;">
-  <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
-    <button type="button" class="mood-option-btn" onclick="filterByMood('relax')">🌿 Relax</button>
-    <button type="button" class="mood-option-btn" onclick="filterByMood('adventure')">🧗 Adventure</button>
-    <button type="button" class="mood-option-btn" onclick="filterByMood('discovery')">🏛️ Discovery</button>
-    <button type="button" class="mood-option-btn" onclick="filterByMood('mix')">✨ Mix</button>
-  </div>
-</div>        </div>
+          <button class="button button-quiet" type="button" id="surpriseButton"><svg aria-hidden="true"><use href="#icon-spark"></use></svg> Surprise me</button>
+        </div>
       </div>
 
       <section class="header-navigation" aria-label="Guide filters">
@@ -420,68 +355,6 @@ function showMoodSchedule(moodKey) {
     tbody.innerHTML += `<tr><td>${item.time}</td><td><strong>${item.place}</strong></td><td>${item.category}</td></tr>`;
   });
   document.getElementById("mood-result").style.display = "block";
-<script>
-const moodData = {
-  relax: {
-    title: "🌿 Relax & Chill Plan (استرخاء وهدوء)",
-    places: [
-      { time: "Morning / صباحاً", place: "Butter Bakery", category: "Fresh Pastries & Breakfast 🥐" },
-      { time: "Late Morning / الضحى", place: "Art Street (شارع الفن)", category: "Scenic Walk & Jacaranda Trees 🟪" },
-      { time: "Afternoon / عصراً", place: "Nair Coffee", category: "Lake View & Swans 🦢" },
-      { time: "Sunset / المغرب", place: "Abha Dam Lake (سد أبها)", category: "Relaxing Waterfront 🌊" },
-      { time: "Evening / مساءً", place: "High City (المدينة العالية)", category: "Calm Breeze & Coffee with View ☕" }
-    ]
-  },
-  adventure: {
-    title: "🧗 Nature & Adventure Plan (مغامرة وطبيعة)",
-    places: [
-      { time: "Early Morning / الفجر", place: "Al Soudah Park (السودة)", category: "Fog, Clouds & Forest Trekking 🌫️️" },
-      { time: "Morning / صباحاً", place: "Jabal Sawda Cable Car", category: "Mountain Cable Car Ride 🚡" },
-      { time: "Midday / الظهر", place: "Habala Village (الحبلة)", category: "Cliffs & Hanging Village Views 🏔️️" },
-      { time: "Afternoon / عصراً", place: "Neom Farm", category: "Nature Trail & Farm Walk 🌲" },
-      { time: "Sunset / المغرب", place: "Green Mountain (Jabal Thera)", category: "High Peak Panoramic View ⛰️" }
-    ]
-  },
-  discovery: {
-    title: "🏛️ Heritage & Culture Plan (تاريخ وثقافة)",
-    places: [
-      { time: "Morning / صباحاً", place: "Rijal Almaa Heritage Village", category: "Ancient Stone Forts & Museum 🏰" },
-      { time: "Midday / الظهر", place: "Shada Palace (قصر شدا)", category: "Traditional Architecture & Artifacts 🏺" },
-      { time: "Afternoon / عصراً", place: "Al-Muftaha Art Village", category: "Local Art Galleries & Craft Shops 🎨" },
-      { time: "Evening / مساءً", place: "Tuesdays Market (سوق الثلاثاء)", category: "Traditional Heritage Souq 🛍️" },
-      { time: "Night / ليلاً", place: "Al Bastah District", category: "Historic Neighborhood & Old Houses 🏛️" }
-    ]
-  },
-  mix: {
-    title: "✨ Full Abha Experience (المزيج الشامل لـ 19 مكان)",
-    places: [
-      { time: "08:00 AM", place: "Butter Bakery & Art Street", category: "Breakfast & Morning Walk 🥐🟪" },
-      { time: "10:30 AM", place: "Al Soudah & Jabal Sawda Cable Car", category: "Mountain Adventure & Views 🚡" },
-      { time: "01:30 PM", place: "Rijal Almaa & Shada Palace", category: "Historical Culture Tour 🏰" },
-      { time: "04:30 PM", place: "Nair Coffee & Abha Dam Lake", category: "Sunset Lake & Swan Viewing 🦢" },
-      { time: "07:00 PM", place: "Al-Muftaha Village & Tuesday Market", category: "Souvenirs & Local Art 🎨" },
-      { time: "09:00 PM", place: "Green Mountain & High City", category: "Night Lights & Dinner View 🌃" }
-    ]
-  }
-};
-
-function showMoodSchedule(moodKey) {
-  const selected = moodData[moodKey];
-  document.getElementById("mood-title").innerText = selected.title;
-  const tbody = document.getElementById("mood-table-body");
-  tbody.innerHTML = "";
-  
-  selected.places.forEach(item => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${item.time}</td>
-        <td><strong>${item.place}</strong></td>
-        <td>${item.category}</td>
-      </tr>
-    `;
-  });
-  
-  document.getElementById("mood-result").style.display = "block";
 }
 
 function addReview(event) {
@@ -499,27 +372,6 @@ function addReview(event) {
   reviewsList.insertBefore(reviewCard, reviewsList.firstChild);
   document.getElementById("review-form").reset();
   alert("Thank you for your review!");
-}
-  // دوال التحكم بزر المزاج والتوزيع الكامل لـ 19 مكان
-const moodCategories = {
-  relax: ["Butter Bakery", "Art Street", "Nair Coffee", "Abha Dam Lake", "High City"],
-  adventure: ["Al Soudah Park", "Jabal Sawda Cable Car", "Habala Village", "Neom Farm", "Green Mountain"],
-  discovery: ["Rijal Almaa Heritage Village", "Shada Palace", "Al-Muftaha Art Village", "Tuesdays Market", "Al Bastah District"],
-  mix: ["Butter Bakery", "Al Soudah Park", "Rijal Almaa Heritage Village", "Nair Coffee", "Green Mountain", "High City"]
-};
-
-function toggleMoodSelector() {
-  const container = document.getElementById("mood-selector-container");
-  if (container) {
-    container.style.display = (container.style.display === "none" || container.style.display === "") ? "block" : "none";
-  }
-}
-
-function filterByMood(moodKey) {
-  const selectedPlaces = moodCategories[moodKey];
-  if (selectedPlaces) {
-    alert("Selected Mood: " + moodKey.toUpperCase() + "\nPlaces: " + selectedPlaces.join(", "));
-  }
 }
 </script>
 </body>
